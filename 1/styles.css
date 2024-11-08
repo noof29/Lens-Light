@@ -1,0 +1,53 @@
+   /* Basic Reset */
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+  
+  /* Header Styling */
+  header {
+    background-color: whitesmoke;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+}
+header img {
+    width: 100px;
+    height: auto;
+   
+}
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+
+/* Set hover color for nav links */
+.navbar-nav .nav-link:hover {
+    color: #f4b400; /* Choose your hover color */
+}
+
+ /* Footer Styling */
+ footer {
+    background-color: lightgray;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.social-icons a {
+    margin: 0 5px;
+    color: #333;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
