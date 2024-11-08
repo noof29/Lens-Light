@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Photography Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <style>
+        /* Styles for the background image and intro text */
+        .intro-section {
+            background-image: url(Sunset-header.jpg); 
+            background-size: cover;
+            background-position: center;
+            color: rgb(11, 11, 11);
+            padding: 100px 20px;
+            text-align: center;
+        }
+        /* Blog-style table section */
+        .category-table {
+            margin-top: 50px;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: rgba(193, 135, 73, 0.753);
+        }
+        .category-table th, .category-table td {
+            border: none; /* Remove borders */
+            padding: 20px;
+            vertical-align: top;
+        }
+       
+        .table-img {
+            width: 300px;
+            height: auto;
+            border-radius: 8px; /* Optional rounded corners */
+        }
+        .category-description {
+            font-size: 16px;
+            color: black;
+        }
+        .category-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .photographer-name {
+            font-size: 20px;
+            color: #555;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+    </style>
+
+<!-- Header with Logo and Navigation -->
+<header>
+    <div class="container-fluid d-flex justify-content-between align-items-center p-3">
+
+        <div class="d-flex align-items-center">
+            <img src="logo.png" alt="Logo" width="100" height="120" class="me-2">
+            <h1>LENS AND LIGHT</h1>
+        </div>
+        <nav class="navbar navbar-expand-sm">
+            <ul class="navbar-nav">
+                <li class="nav-item" style="font-size: 20pt;"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item" style="font-size: 20pt;"><a class="nav-link active" href="portfolio.html">Portfolio</a></li>
+                <li class="nav-item" style="font-size: 20pt;"><a class="nav-link" href="booking.html">Booking</a></li>
+                <li class="nav-item" style="font-size: 20pt;"><a class="nav-link" href="store.html">Store</a></li>
+                <li class="nav-item" style="font-size: 20pt;"><a class="nav-link" href="contact us.html">Contact us</a></li>
+                <li class="nav-item" style="font-size: 20pt;"><a class="nav-link" href="about us.html">About us</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+</head>
+
+<body style="background-color: #726e6e;"></body>
+<!-- Introduction Section -->
+<div class="intro-section">
+    <h1 class="intro-title">Welcome to Our Portfolio</h1>
+    <p style="font-size: 18pt; background-color: rgba(114, 110, 110, 0.4);">
+        Welcome to our portfolio, where our talented photographers' work brings the art of photography to life. 
+       The best work from a variety of categories, such as commercial, events, landscape, and portrait photography, 
+       is displayed here. Every picture conveys a distinct tale, demonstrating our commitment to preserving the 
+       spontaneity, beauty, and emotion of every second. Our portfolio provides an insight into the variety of 
+       styles and abilities that set our team apart, whether you're looking for inspiration, want to hire a photographer, 
+       or are just interested in the art. Investigate, learn, and allow the pictures to do the talking.
+    </p>
+</div>
+
+<!-- Blog-style Category Table -->
+<div class="container category-section">
+    <table class="category-table">
+        <tbody>
+            <tr>
+                <td><img src="portrait.jpeg" alt="Portrait photography" class="table-img"></td>
+                <td>
+                    <div class="category-name">Portrait</div>
+                    <div class="photographer-name">Sarah Al manji</div>
+                    <div class="category-description">Sarah is a gifted portrait photographer who is renowned for capturing her subjects' genuine personalities. 
+                        She produces personal and emotive photographs that showcase her customers' personalities and feelings since 
+                        she has an excellent eye for detail and a love of telling stories. Sarah's art radiates warmth and genuineness, 
+                        whether it's a family portrait or a business headshot.</div>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="landscape.jpeg" alt="Landscape photography" class="table-img"></td>
+                <td>
+                    <div class="category-name">Landscape</div>
+                    <div class="photographer-name">Ahmed Al harthi</div>
+                    <div class="category-description">Ahmed is a passionate landscape photographer who uses his camera to capture the splendor of the natural world. 
+                        His artwork frequently captures the ideal lighting and dramatic weather conditions, showcasing breathtaking 
+                        panoramas ranging from tranquil seascapes to towering mountain ranges. Every photograph he takes reflects his 
+                        profound love of the outdoors, which makes his work an uplifting ode to nature.</div>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="event.jpeg" alt="Event photography" class="table-img"></td>
+                <td>
+                    <div class="category-name">Commercial and Event</div>
+                    <div class="photographer-name">Reem Al amri</div>
+                    <div class="category-description">Reem is an expert in event and commercial photography, assisting companies and brands in using compelling imagery 
+                        to communicate their messages. Her work ranges widely, from lifestyle photos and advertising campaigns to business 
+                        events and product launches. Reem's strategy ensures that every image appeals to the target audience by fusing 
+                        creativity with a strong emphasis on brand identity.</div>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="architecture.jpg" alt="Architectural photography" class="table-img"></td>
+                <td>
+                    <div class="category-name">Architecture</div>
+                    <div class="photographer-name">Zaid Al shamsi</div>
+                    <div class="category-description">Zaid is a talented architecture photographer who has an excellent sense of symmetry, light and shadow interaction, 
+                        and detail. Zaid has a passion for portraying the beauty of structures, and his work includes detailed interiors, 
+                        modern skyscrapers, and historic buildings. By emphasizing angles and views that highlight distinctive elements, 
+                        his photography captures the uniqueness and beauty of architectural projects. Through his photography, Zaid aims 
+                        to convey the narrative of every area, highlighting its composition and character.</div>
+                </td>
+            </tr>
+            <tr>
+                <td><img src="candid.jpeg" alt="Candid photography" class="table-img"></td>
+                <td>
+                    <div class="category-name">Candid</div>
+                    <div class="photographer-name">Mia Al maskari</div>
+                    <div class="category-description">Mia is an enthusiastic candid photographer who focuses on catching unplanned moments in daily life. 
+                        Her art demonstrates real feelings and spontaneous exchanges, highlighting the beauty of life's ephemeral moments. 
+                        Whether it's a happy grin, a contemplative look, or a peaceful moment of introspection, Mia's photography captures 
+                        the moments that are frequently overlooked. Through her photographs, she hopes to celebrate the genuineness of human 
+                        experiences and arouse sentiments of connection and nostalgia.</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 Lens and Light. All Rights Reserved.</p>
+    <p>Contact us : <a href="mailto:info@lensandlight.com">info@lensandlight.com</a> | Phone: +1-800-123-4567</p>
+    <p>Follow us on:
+        <span class="social-icons">
+            <a href="https://www.instagram.com/photonewspn/?hl=en"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com/photonewspn"><i class="fab fa-twitter"></i></a>
+        </span>
+    </p>
+</footer>
+
+</body>
+</html>
