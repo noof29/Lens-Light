@@ -1,0 +1,41 @@
+
+/* Background color */
+header {
+    background-color: whitesmoke;
+}
+
+/* Set font style for website name */
+.container-fluid h1 {
+    font-family:'Franklin Gothic Medium', sans-serif;
+}
+
+/* Set font size for navbar */
+.navbar-nav {
+    font-size: 17pt;
+}
+
+/* Set hover color for nav links */
+.navbar-nav .nav-link:hover {
+    color: #f4b400; /* Choose your hover color */
+}
+
+/* Set active link color */
+.navbar-nav .nav-link.active {
+    color: rgb(54, 27, 108); /* Choose your active link color */
+}
+
+/* Footer styling */
+footer {
+    background-color: lightgray;
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    font-family: sans-serif;
+}
+
+.social-icons a {
+    margin: 0 5px;
+    color: #333;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
