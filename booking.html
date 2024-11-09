@@ -12,7 +12,6 @@
         body {
             background-color: white;
             color: black;
-            font-family: Arial, sans-serif;
         }
         .header-image {
             position: relative;
@@ -71,11 +70,6 @@
             background-color: #333;
         }
        
-        .social-icons img {
-            width: 40px;
-            margin: 0 10px;
-            cursor: pointer;
-        }
         h2 {
             font-size: 2.5rem;
             margin-bottom: 20px;
@@ -196,7 +190,7 @@
     <!-- Session Photography Form -->
     <div class="booking-form" id="booking">
         <h3 class="form-title">Session Photography Booking Form</h3>
-        <form action="info@lenslight.com" method="get" enctype="text/plain">
+        <form action="info@lenslight.com" method="GET" enctype="text/plain">
             <div class="mb-3">
                 <label for="service-session" class="form-label">Choose a Service</label>
                 <select class="form-select" id="service-session" name="service" required>
@@ -224,13 +218,14 @@
             </div>
             <button type="submit" class="btn btn-o w-100" style="background-color: #e69500; color: white; border: none; padding: 10px; font-size: 16px; cursor: pointer; width: 100%;">
                 Register
-            </button>        </form>
+            </button>        
+        </form>
     </div>
 
     <!-- Workshop Registration Form -->
     <div class="booking-form" id="workshop">
         <h3 class="form-title">Photography Workshop Registration Form</h3>
-        <form action="info@lenslight.com" method="get" enctype="text/plain">
+        <form action="info@lenslight.com" method="GET" enctype="text/plain">
             <div class="mb-3">
                 <label for="workshop-name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="workshop-name" name="workshop-name" required>
@@ -258,7 +253,8 @@
             </div>
             <button type="submit" class="btn btn-o w-100" style="background-color: #e69500; color: white; border: none; padding: 10px; font-size: 16px; cursor: pointer; width: 100%;">
                 Register
-            </button>            </form>
+            </button>            
+        </form>
     </div>
 </div>
     <!-- Contact Details -->
