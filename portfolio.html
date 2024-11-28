@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Photography Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Portfolio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- social icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!--External css-->
+    <link href="styles.css" rel="stylesheet" >
 
 
     <style>
-        /* Styles for the background image and intro text */
+        /* Styling for the introduction section */
         .intro-section {
             background-image: url(Sunset-header.jpg); 
             background-size: cover;
@@ -18,154 +20,234 @@
             padding: 100px 20px;
             text-align: center;
         }
-        /* Blog-style table section */
+
+        /* Styling for the photography category table */
         .category-table {
             margin-top: 50px;
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
             background-color: rgba(193, 135, 73, 0.753);
         }
+
+        /* Styling for table cells */
         .category-table th, .category-table td {
-            border: none; /* Remove borders */
             padding: 20px;
             vertical-align: top;
         }
-       
+
+        /* Styling for table images */
         .table-img {
             width: 300px;
             height: auto;
-            border-radius: 8px; /* Optional rounded corners */
+            border-radius: 8px;
         }
-        .category-description {
-            font-size: 16px;
-            color: black;
-        }
+
+        /* Styling for category names */
         .category-name {
             font-size: 24px;
             font-weight: bold;
             color: #333;
         }
+
+        /* Styling for photographer names */
         .photographer-name {
             font-size: 20px;
             color: #555;
             font-style: italic;
             margin-bottom: 10px;
         }
+
+        /* Styling for the search form */
+        .search-form {
+            margin: 20px 0;
+            text-align: center;
+        }
     </style>
-
-<!-- Header with Logo and Navigation -->
-<header>
-    <div class="container-fluid d-flex justify-content-between align-items-center p-3">
-
-        <div class="d-flex align-items-center">
-            <img src="logo.png" alt="Logo" width="100" height="120" class="me-2">
-            <h1>LENS AND LIGHT</h1>
-        </div>
-        <nav class="navbar navbar-expand-sm">
-            <ul class="navbar-nav">
-                <li class="nav-item" ><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item" ><a class="nav-link active">Portfolio</a></li>
-                <li class="nav-item" ><a class="nav-link" href="booking.html">Booking</a></li>
-                <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
-                <li class="nav-item" ><a class="nav-link" href="contact us.html">Contact us</a></li>
-                <li class="nav-item" ><a class="nav-link" href="about us.html">About us</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
 </head>
 
-<body style="background-color: #726e6e;"></body>
-<!-- Introduction Section -->
-<div class="intro-section">
-    <h1 class="intro-title">Welcome to Our Portfolio</h1>
-    <p style="font-size: 18pt; background-color: rgba(114, 110, 110, 0.4);">
-        Welcome to our portfolio, where our talented photographers' work brings the art of photography to life. 
-       The best work from a variety of categories, such as commercial, events, landscape, and portrait photography, 
-       is displayed here. Every picture conveys a distinct tale, demonstrating our commitment to preserving the 
-       spontaneity, beauty, and emotion of every second. Our portfolio provides an insight into the variety of 
-       styles and abilities that set our team apart, whether you're looking for inspiration, want to hire a photographer, 
-       or are just interested in the art. Investigate, learn, and allow the pictures to do the talking.
-    </p>
-</div>
+<body style="background-color: #726e6e;">
+    <!-- Header Section -->
+    <header>
+        <div class="container-fluid d-flex justify-content-between align-items-center p-3">
+            <!-- Logo and title -->
+            <div class="d-flex align-items-center">
+                <img src="logo.png" alt="Logo" width="100" height="120" class="me-2">
+                <h1>LENS AND LIGHT</h1>
+            </div>
+            <!-- Navigation bar -->
+            <nav class="navbar navbar-expand-sm">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="portfolio.html">Portfolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Calculation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact us.html">Contact us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Questionnaire</a></li>
+                    <li class="nav-item"><a class="nav-link" href="fun.html">Fun</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about us.html">About us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-<!-- Blog-style Category Table -->
-<div class="container category-section">
-    <table class="category-table">
-        <tbody>
-            <tr>
-                <td><img src="portrait.jpeg" alt="Portrait photography" class="table-img"></td>
-                <td>
-                    <div class="category-name">Portrait</div>
-                    <div class="photographer-name">Sarah Al manji</div>
-                    <div class="category-description">Sarah is a gifted portrait photographer who is renowned for capturing her subjects' genuine personalities. 
-                        She produces personal and emotive photographs that showcase her customers' personalities and feelings since 
-                        she has an excellent eye for detail and a love of telling stories. Sarah's art radiates warmth and genuineness, 
-                        whether it's a family portrait or a business headshot.</div>
-                </td>
-            </tr>
-            <tr>
-                <td><img src="landscape.jpeg" alt="Landscape photography" class="table-img"></td>
-                <td>
-                    <div class="category-name">Landscape</div>
-                    <div class="photographer-name">Ahmed Al harthi</div>
-                    <div class="category-description">Ahmed is a passionate landscape photographer who uses his camera to capture the splendor of the natural world. 
-                        His artwork frequently captures the ideal lighting and dramatic weather conditions, showcasing breathtaking 
-                        panoramas ranging from tranquil seascapes to towering mountain ranges. Every photograph he takes reflects his 
-                        profound love of the outdoors, which makes his work an uplifting ode to nature.</div>
-                </td>
-            </tr>
-            <tr>
-                <td><img src="event.jpeg" alt="Event photography" class="table-img"></td>
-                <td>
-                    <div class="category-name">Commercial and Event</div>
-                    <div class="photographer-name">Reem Al amri</div>
-                    <div class="category-description">Reem is an expert in event and commercial photography, assisting companies and brands in using compelling imagery 
-                        to communicate their messages. Her work ranges widely, from lifestyle photos and advertising campaigns to business 
-                        events and product launches. Reem's strategy ensures that every image appeals to the target audience by fusing 
-                        creativity with a strong emphasis on brand identity.</div>
-                </td>
-            </tr>
-            <tr>
-                <td><img src="architecture.jpg" alt="Architectural photography" class="table-img"></td>
-                <td>
-                    <div class="category-name">Architecture</div>
-                    <div class="photographer-name">Zaid Al shamsi</div>
-                    <div class="category-description">Zaid is a talented architecture photographer who has an excellent sense of symmetry, light and shadow interaction, 
-                        and detail. Zaid has a passion for portraying the beauty of structures, and his work includes detailed interiors, 
-                        modern skyscrapers, and historic buildings. By emphasizing angles and views that highlight distinctive elements, 
-                        his photography captures the uniqueness and beauty of architectural projects. Through his photography, Zaid aims 
-                        to convey the narrative of every area, highlighting its composition and character.</div>
-                </td>
-            </tr>
-            <tr>
-                <td><img src="candid.jpeg" alt="Candid photography" class="table-img"></td>
-                <td>
-                    <div class="category-name">Candid</div>
-                    <div class="photographer-name">Mia Al maskari</div>
-                    <div class="category-description">Mia is an enthusiastic candid photographer who focuses on catching unplanned moments in daily life. 
-                        Her art demonstrates real feelings and spontaneous exchanges, highlighting the beauty of life's ephemeral moments. 
-                        Whether it's a happy grin, a contemplative look, or a peaceful moment of introspection, Mia's photography captures 
-                        the moments that are frequently overlooked. Through her photographs, she hopes to celebrate the genuineness of human 
-                        experiences and arouse sentiments of connection and nostalgia.</div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <!-- Introduction Section -->
+    <div class="intro-section">
+        <h1 class="intro-title">Welcome to Our Portfolio</h1>
+        <p style="font-size: 18pt; background-color: rgba(114, 110, 110, 0.4);">
+            Welcome to our portfolio, where our talented photographers' work brings the art of photography to life. 
+            The best work from a variety of categories, such as commercial, events, landscape, and portrait photography, 
+            is displayed here. Every picture conveys a distinct tale, demonstrating our commitment to preserving the 
+            spontaneity, beauty, and emotion of every second. Our portfolio provides an insight into the variety of 
+            styles and abilities that set our team apart, whether you're looking for inspiration, want to hire a photographer, 
+            or are just interested in the art. Investigate, learn, and allow the pictures to do the talking.
+        </p>
+    </div>
 
-<!-- Footer -->
-<footer>
-    <p>&copy; 2024 Lens and Light. All Rights Reserved.</p>
-    <p>Contact us : <a href="mailto:info@lensandlight.com">info@lensandlight.com</a> | Phone: +1-800-123-4567</p>
-    <p>Follow us on:
-        <span class="social-icons">
-            <a href="https://www.instagram.com/photonewspn/?hl=en"><i class="fab fa-instagram"></i></a>
-            <a href="https://twitter.com/photonewspn"><i class="fab fa-twitter"></i></a>
-        </span>
-    </p>
-</footer>
+    <!-- Search Section -->
+    <div class="search-form">
+        <label for="searchDropdown" class="form-label">Select Category:</label>
+        <select id="searchDropdown" class="form-select w-50 mx-auto">
+            <option value="">-- Select an Option --</option>
+        </select>
+        <button class="btn btn-warning mt-3" onclick="search()">Search</button>
+    </div>
 
+    <!-- Photography Category Table -->
+    <div class="container category-section">
+        <table id="photographyTable" class="category-table">
+            <tbody>
+                <!-- Content will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+     <!-- Footer -->
+     <footer>
+        <p>&copy; 2024 Lens and Light. All Rights Reserved.</p>
+        <p>Contact us : <a href="mailto:info@lensandlight.com">info@lensandlight.com</a> | Phone: +1-800-123-4567</p>
+        <p>Follow us on:
+            <span class="social-icons">
+                <a href="https://www.instagram.com/photonewspn/?hl=en"><i class="fab fa-instagram"></i></a>
+                <a href="https://twitter.com/photonewspn"><i class="fab fa-twitter"></i></a>
+            </span>
+        </p>
+    </footer>
+
+<!-- JavaScript Section -->
+<script>
+    /**
+     * Photographer constructor function
+     * Creates an object to represent a photographer's information.
+     * @param {string} name - Name of the photographer.
+     * @param {string} category - The category of photography.
+     * @param {string} description - A description of the photographer's style and expertise.
+     * @param {string} imgSrc - The file path for the image representing the photographer's work.
+     */
+    function Photographer(name, category, description, imgSrc) {
+        this.name = name; // Assign the photographer's name
+        this.category = category; // Assign the photography category
+        this.description = description; // Assign the photographer's description
+        this.imgSrc = imgSrc; // Assign the file path for the photographer's image
+    }
+
+        // An array of photographer objects, each representing a different photographer and their details
+        const photographers = [
+            new Photographer("Sarah Al Manji", "Portrait", "Sarah is a gifted portrait photographer who is renowned for capturing her subjects' genuine personalities. She produces personal and emotive photographs that showcase her customers' personalities and feelings since she has an excellent eye for detail and a love of telling stories. Sarah's art radiates warmth and genuineness, whether it's a family portrait or a business headshot.", "portrait.jpeg"),
+            new Photographer("Ahmed Al Harthi", "Landscape", "Ahmed is a passionate landscape photographer who uses his camera to capture the splendor of the natural world. His artwork frequently captures the ideal lighting and dramatic weather conditions, showcasing breathtaking panoramas ranging from tranquil seascapes to towering mountain ranges. Every photograph he takes reflects his profound love of the outdoors, which makes his work an uplifting ode to nature.", "landscape.jpeg"),
+            new Photographer("Reem Al Amri", "Commercial and Event", "Reem is an expert in event and commercial photography, assisting companies and brands in using compelling imagery to communicate their messages. Her work ranges widely, from lifestyle photos and advertising campaigns to business events and product launches. Reem's strategy ensures that every image appeals to the target audience by fusing creativity with a strong emphasis on brand identity.", "event.jpeg"),
+            new Photographer("Zaid Al Shamsi", "Architecture", "Zaid is a talented architecture photographer who has an excellent sense of symmetry, light and shadow interaction, and detail. Zaid has a passion for portraying the beauty of structures, and his work includes detailed interiors, modern skyscrapers, and historic buildings. By emphasizing angles and views that highlight distinctive elements, his photography captures the uniqueness and beauty of architectural projects. Through his photography, Zaid aims to convey the narrative of every area, highlighting its composition and character.", "architecture.jpg"),
+            new Photographer("Mia Al Maskari", "Candid", "Mia is an enthusiastic candid photographer who focuses on catching unplanned moments in daily life. Her art demonstrates real feelings and spontaneous exchanges, highlighting the beauty of life's ephemeral moments. Whether it's a happy grin, a contemplative look, or a peaceful moment of introspection, Mia's photography captures the moments that are frequently overlooked. Through her photographs, she hopes to celebrate the genuineness of human experiences and arouse sentiments of connection and nostalgia.", "candid.jpeg")
+        ];
+
+        /**
+     * Populates the dropdown menu with photography categories.
+     * Ensures no duplicate categories are added to the dropdown.
+     */
+    function populateDropdown() {
+        const dropdown = document.getElementById('searchDropdown'); // Get the dropdown element by its ID
+        const categories = []; // Initialize an empty array to store unique categories
+
+        // Loop through the photographers array to extract categories
+        for (const photographer of photographers) {
+            // Check if the category is not already in the categories array
+            if (!categories.includes(photographer.category)) {
+                categories.push(photographer.category); // Add unique category to the categories array
+
+                // Create a new <option> element for the dropdown menu
+                const option = document.createElement('option');
+                option.value = photographer.category.toLowerCase(); // Set the option's value (lowercase for comparison)
+                option.textContent = photographer.category; // Set the display text for the option
+                dropdown.appendChild(option); // Add the option to the dropdown
+            }
+        }
+    }
+
+    /**
+     * Displays photographer data in a table format.
+     * Clears the existing table content and populates it with the provided data.
+     * @param {Array} data - An array of photographer objects to be displayed in the table.
+     */
+    function displayTable(data) {
+        const tableBody = document.getElementById('photographyTable').getElementsByTagName('tbody')[0]; // Get the table's <tbody> element
+        tableBody.innerHTML = ''; // Clear any existing rows in the table body
+
+        // Loop through the data array to create table rows for each photographer
+        for (const photographer of data) {
+            const row = document.createElement('tr'); // Create a new row
+
+            // Create a table cell for the image
+            const imgCell = document.createElement('td');
+            const img = document.createElement('img'); // Create an <img> element
+            img.src = photographer.imgSrc; // Set the image source (file path)
+            img.alt = `${photographer.category} photography`; // Set alternative text for the image
+            img.className = 'table-img'; // Assign a CSS class for styling
+            imgCell.appendChild(img); // Add the image to the cell
+            row.appendChild(imgCell); // Add the image cell to the row
+
+            // Create a table cell for the photographer's information
+            const infoCell = document.createElement('td');
+            infoCell.innerHTML = `
+                <div class="category-name">${photographer.category}</div> <!-- Display category name -->
+                <div class="photographer-name">${photographer.name}</div> <!-- Display photographer name -->
+                <p>${photographer.description}</p> <!-- Display photographer description -->
+            `;
+            row.appendChild(infoCell); // Add the information cell to the row
+
+            tableBody.appendChild(row); // Append the row to the table body
+        }
+    }
+
+    /**
+     * Filters and displays photographers based on the selected category.
+     * If no photographers match the selected category, displays a "No results found" message.
+     */
+    function search() {
+        const searchTerm = document.getElementById('searchDropdown').value.toLowerCase(); // Get the selected category from the dropdown
+        const results = photographers.filter(
+            p => p.category.toLowerCase() === searchTerm // Filter photographers by matching category (case-insensitive)
+        );
+
+        // Check if any results are found
+        if (results.length === 0) {
+            // Display a message indicating no results were found
+            const tableBody = document.getElementById('photographyTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = '<tr><td colspan="2" style="text-align:center;">No results found</td></tr>';
+        } else {
+            displayTable(results); // Display the filtered photographers in the table
+        }
+    }
+
+    /**
+     * Initializes the page by populating the dropdown menu and displaying all photographers.
+     * This function is called when the script is loaded to ensure the page is set up correctly.
+     */
+    function initializePage() {
+        populateDropdown(); // Populate the dropdown menu with photography categories
+        displayTable(photographers); // Display all photographers in the table by default
+    }
+
+    // Call the initializePage function to set up the page on load
+    initializePage();
+    </script>
 </body>
 </html>
