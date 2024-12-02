@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Web page name -->
+        <title>Calculation</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- External CSS -->
+        <link href="styles.css" rel="stylesheet"/>
+        <!-- Document-level CSS -->
+        <style>
+            /* Sets the background color for the entire page */
+            body { background-color: whitesmoke; }
+            
+            /* Styles the main content container */
+            .container {
+                max-width: 800px;                            /* Maximum width of the container */
+                margin: 30px auto;                           /* Centers the container with vertical spacing */
+                padding: 30px;                               /* Inner spacing for the container */
+                background: #fff;                          /* White background for the container */
+                border-radius: 10px;                         /* Rounds the corners */
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);   /* Add shadow for the container */
+            }
+            
+            /* Styles for the heading element */
+            h2 {
+                text-align: center;                          /* Centers the text */
+                font-weight: bold;                           /* Makes the text bold */
+                color: #333;                               /* Dark gray color for the text */
+            }
+            
+            /* Styles for a group of buttons */
+            .button-group {
+                display: flex;                               /* Arranges buttons in a row */
+                gap: 14px;                                   /* Spacing between buttons */
+                justify-content: center;                     /* Centers the button group */
+                margin: 20px 0;                              /* Vertical spacing */
+            }
+
+            /* Styles for individual buttons */
+            .btn {
+                font-size: 16px;                             /* Button text size */
+                background-color: white;                   /* Default button background color */
+                border: 1px solid rgb(51, 52, 57);        /* Adds a border with specific color */
+                color: rgb(51, 52, 57);                   /* Default text color for the button */
+            }
+            
+            /* Changes the button style on hover */
+            .btn:hover {
+                background-color: rgb(51, 52, 57);        /* Changes background to a darker color */
+                color: white;                              /* Changes text color to white */
+            }
+            
+            /* Styles for the details section */
+            .details {
+                max-height: 170px;                           /* Sets a maximum height for the details section */
+                font-family: Calibri, sans-serif;            /* Sets the font style */
+                font-size: 18px;                             /* Text size */
+                color: #333;                               /* Text color */
+            }
+
+            /* Styles for text and number input fields */
+            input[type="text"], input[type="number"] {
+                width: 100%;                                 /* Makes input fields stretch across the container */
+                max-width: 300px;                            /* Limits maximum width of input fields */
+                padding: 10px;                               /* Inner spacing inside the input box */
+                margin: 10px 0;                              /* Spacing around input fields */
+                border: 1px solid #ccc;                    /* Adds a light gray border */
+                border-radius: 4px;                          /* Rounds the corners of input fields */
+            }
+            
+            /* Adds spacing for the bill container section */
+            #bill-container { margin-top: 20px; }
+            
+            /* Styles for tables */
+            table {
+                width: 100%;                                 /* Makes the table stretch across its container */
+                border-collapse: collapse;                   /* Removes spacing between table cells */
+                margin-top: 20px;                            /* Adds top spacing for the table */
+            }
+            
+            /* Styles for table headers and cells */
+            table th, table td {
+                border: 1px solid #ccc;                    /* Adds a border to each cell */
+                padding: 10px;                               /* Inner spacing within each cell */
+                text-align: left;                            /* Aligns text to the left */
+            }
+            
+            /* Styles specifically for table headers */
+            table th { background-color: #f8f8f8; }        /* Light gray background for headers */
+        </style>
+        <!-- Header with Logo and Navigation -->
+        <header>
+            <div class="container-fluid d-flex justify-content-between align-items-center p-3">
+                <!-- Logo and Website name on the Left -->
+                <div class="d-flex align-items-center">
+                    <img src="logo.png" alt="Logo" width="100" height="120" class="me-2">
+                    <h1>LENS AND LIGHT</h1>
+                </div>
+                
+                <!-- Navigation Links on the Right -->
+                 <nav class="navbar navbar-expand-sm">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
+                        <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
+                        <li class="nav-item"><a class="nav-link active">Calculation</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contactus.html">Contact us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Questionnaire</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Fun</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about us.html">About us</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <script>
+            //This function creates product object
+            function Product(code, name, brand, model, color, price) {
+                this.code = code; this.name = name;
+                this.brand = brand; this.model = model;
+                this.color = color; this.price = price;
+            }
+            
+            //Construct an array for product objects
+            const products = [
+                new Product("A1", "Camera", "CANON", "EOS 250D SLR", "black", 279.901),
+                new Product("A2", "Camera", "NIKON", "Z30 Digital", "black", 449.880),
+                new Product("A3", "Instant Colour Photo Printer Camera", "CANON", "Zoemini S2 ZV223", "pink", 37.550),
+                new Product("B1", "Photo Printer", "CANON", "CP1500BK", "black", 49.900),
+                new Product("C1", "Camera Lens", "CANON", "EF 50MM F/1.8 STM", "black", 62.579),
+                new Product("D1", "Memory Card", "LEXAR", "128GB SDXC Card 1667X Professional", "black", 10.900)
+            ];
+            
+            //This function displays details of each product
+            function viewDetails(index) {
+                const product = products[index];
+                document.getElementById("details").innerHTML = `
+                <strong>Item Code:</strong> ${product.code}<br/>
+                <strong>Name:</strong> ${product.name}<br/>
+                <strong>Brand:</strong> ${product.brand}<br/>
+                <strong>Model:</strong> ${product.model}<br/>
+                <strong>Color:</strong> ${product.color}<br/>
+                <strong>Price:</strong> ${product.price.toFixed(3)} OMR`;
+            }
+            
+            //Tracks number of items
+            var itemsCount = 1;
+            
+            //This function adds new item row in the form
+            function addNewItemRow() {
+                if (itemsCount >= 6) { //Limits the total number of items
+                    alert("You cannot add more than 6 items.");
+                    return;
+                }
+                itemsCount++; //Increment itemsCount
+                const row = document.createElement("tr"); //Creates a row for new item
+                row.id = "item" + itemsCount; //Adds id to the row
+                row.innerHTML = `
+                <th><label for="item${itemsCount}Code">Item ${itemsCount} Code:</label></th>
+                <td><input type="text" id="item${itemsCount}Code" name="code" placeholder="Enter item code" required></td>
+                <th><label for="item${itemsCount}Qty">Item ${itemsCount} Quantity:</label></th>
+                <td><input type="number" id="item${itemsCount}Qty" name="quantity" min="1" required></td>`;
+                document.getElementById("formTable").appendChild(row); //Appends the row to the form table
+            }
+            
+            //This function removes last added item row
+            function removeLastItemRow() {
+                if (itemsCount > 1) { //Checks if there is more than one item
+                    document.getElementById("item"+itemsCount).remove(); //Remove item row
+                    itemsCount--; //Decrement itemsCount
+                } else { alert("At least one item must remain!"); } //Ensures at least one item remains
+            }
+            
+            //This function calculates total cost and displays the bill
+            function calculateBill() {
+                //Initialize total to 0
+                var total = 0;
+                //Initialize discountRate to 0
+                var discountRate = 0;
+
+                //Get age value
+                const age = document.getElementById("age").value;
+                //Validate age
+                if (isNaN(age) || age < 10) {
+                    alert("Invalid age! Try again.");
+                    return;
+                }
+                
+                //Check the age if it is within the range
+                if (age >= 20 && age <= 25) {
+                    //Assign discountRate to 0.10
+                    discountRate = 0.10;
+                }
+
+                //Create table element
+                const table = document.createElement("table");
+                
+                //Set headings to the table
+                table.innerHTML = `
+                <tr>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Price per Unit</th>
+                    <th>Discounted Price</th>
+                    <th>Total</th>
+                </tr>`;
+                
+                //Loop through all items
+                for (let i = 1; i <= itemsCount; i++) {
+                    //Get code value by id
+                    const code = document.getElementById(`item${i}Code`).value.trim().toUpperCase();
+                    //Get quantity value by id & convert it to integer
+                    const quantity = parseInt(document.getElementById(`item${i}Qty`).value);
+                    
+                    //Validate inputs: item code & item quantity
+                    if (!code || isNaN(quantity) || quantity < 1) {
+                        alert("Please ensure all item codes and quantities are valid.");
+                        return; //Return from the function
+                    }
+                    
+                    //Initialize foundProduct to null
+                    var foundProduct = null;
+                    //Checks if the item code is exist in products array
+                    for (var product of products) {
+                        if (product.code == code) {
+                            foundProduct = product; //Assign foundProduct to the product
+                        }
+                    }
+
+                    //Check if foundProduct is null or not
+                    if (foundProduct == null) {
+                        //Raise alert indicates that this code is not found
+                        alert(`Product with code ${code} not found.`);
+                        return; //Return from the function
+                    }
+
+                    //Calculates discounted price
+                    const discountedPrice = foundProduct.price * (1 - discountRate);
+                    //Calculates total price
+                    const totalPrice = discountedPrice * quantity;
+                    total += totalPrice;
+                    
+                    //Creates a row for each item
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                    <td>${foundProduct.brand} ${foundProduct.name} ${foundProduct.model}</td>
+                    <td>${quantity}</td>
+                    <td>${foundProduct.price.toFixed(3)}</td>
+                    <td>${discountedPrice.toFixed(3)}</td>
+                    <td>${totalPrice.toFixed(3)}</td>`;
+
+                    //Appends the row to the table
+                    table.appendChild(row);
+                }
+                
+                //Point to the container
+                const container = document.getElementById("bill-container");
+                //Clear the previous content
+                container.innerHTML = "";
+                //Append the table to the container
+                container.appendChild(table);
+                //Print total amount
+                document.getElementById("total-amount").innerHTML = `<br/>Total Amount: ${total.toFixed(3)} OMR`;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Heading for the calculator -->
+            <h2>Bill Calculator</h2>
+            <!-- Container for details buttons -->
+            <div class="button-group">
+                <!-- Buttons for products details -->
+                <button class="btn" onclick="viewDetails(0)">CANON Camera</button>
+                <button class="btn" onclick="viewDetails(1)">NIKON Camera</button>
+                <button class="btn" onclick="viewDetails(2)">Instant Camera</button>
+                <button class="btn" onclick="viewDetails(3)">Photo Printer</button>
+                <button class="btn" onclick="viewDetails(4)">Camera Lens</button>
+                <button class="btn" onclick="viewDetails(5)">Memory Card</button>
+            </div>
+            <!-- Container for details -->
+            <div class="details" id="details">Select a product to view details.</div>
+            <!-- Horizontal line -->
+            <hr/>
+            <!-- Form -->
+            <form>
+                <!-- Input field for customer age -->
+                <label for="customerAge" style="font-weight: bold; margin-right: 10px;">Age:</label>
+                <input type="number" id="age" placeholder="Enter your age" min="15" required/>
+                <!-- Horizontal line -->
+                <hr/>
+                <!-- Table for items inputs code $ quantity fields -->
+                <table id="formTable">
+                    <!-- Row for the first item -->
+                    <tr id="item1">
+                        <!-- First item code -->
+                        <th><label for="item1Code">Item 1 Code:</label></th>
+                        <td><input type="text" id="item1Code" placeholder="Enter item code" required></td>
+                        <!-- First item quantity -->
+                        <th><label for="item1Qty">Item 1 Quantity:</label></th>
+                        <td><input type="number" id="item1Qty" min="1" required></td>
+                    </tr>
+                </table>
+                <!-- Container for buttons of the form -->
+                <div class="button-group">
+                    <!-- Button for adding new item row -->
+                    <button type="button" class="btn" onclick="addNewItemRow()">Add Item</button>
+                    <!-- Button for removing last item row -->
+                    <button type="button" class="btn" onclick="removeLastItemRow()">Remove Item</button>
+                    <!-- Button for generating the bill -->
+                    <button type="button" class="btn" onclick="calculateBill()">Generate Bill</button>
+                    <!-- Reset button to clear the form -->
+                    <input type="reset" class="btn"/>
+                </div>
+            </form>
+            <!-- Container for the bill-->
+            <div id="bill-container"></div>
+            <!-- Heading element for total amount -->
+            <h4 id="total-amount"></h4>
+        </div>
+    </body>
+</html>
