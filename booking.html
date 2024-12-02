@@ -1,32 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Page Title -->
-    <title>Booking</title>
-
-    <!-- Bootstrap CSS for responsive design and styling -->
+    <title> Booking</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap JS for interactive components like modals and dropdowns -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Font Awesome for social media icons and additional styling -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <!-- External CSS file for custom styles -->
     <link href="styles.css" rel="stylesheet">
 
-    <!-- Internal CSS for additional custom styles specific to this page -->
     <style>
-        /* General body styling for consistent appearance */
         body {
             background-color: white;
             color: black;
             font-family: Arial, sans-serif;
         }
-
-        /* Styling for the header image with overlay effects */
         .header-image {
             position: relative;
             text-align: center;
@@ -34,20 +21,15 @@
             border-radius: 10px;
             overflow: hidden;
         }
-
-        /* Image hover effect for zooming */
         .header-image img {
-            width: 100%;
-            height: 600px;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
+    width: 100%;
+    height: 600px; /* Increased height for a larger image */
+    object-fit: cover;
+    transition: transform 0.3s;
+}
         .header-image img:hover {
             transform: scale(1.05);
         }
-
-        /* Overlay text and background styling */
         .header-image .overlay {
             position: absolute;
             top: 0;
@@ -63,42 +45,90 @@
             padding: 20px;
             text-align: center;
         }
-
-        /* Styling for buttons */
+        .header-image h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        .header-image p {
+            font-size: 1.25rem;
+            margin-top: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
         .btn-custom {
-            background-color: #f4b400;
+            background-color: orange;
             color: black;
         }
-
         .btn-custom:hover {
-            background-color: #f4b400;
+            background-color: #e68a00;
         }
-
         .btn-secondary {
             background-color: black;
             color: white;
         }
-
         .btn-secondary:hover {
             background-color: #333;
         }
+       
+        .social-icons img {
+            width: 40px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: orange;
+        }
+        .text-muted {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: black;
+        }
+        .text-center p {
+            line-height: 1.6;
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: black;
+        }
+        .booking-form {
+            margin-top: 20px;
+            border: 1px solid #e6e6e6;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: orange;
+            text-align: center;
+        }
+
+        
+
+
     </style>
 </head>
-
 <body>
-    <!-- Header Section with Logo and Navigation -->
-    <header>
-        <div class="container-fluid d-flex justify-content-between align-items-center p-3">
-            <!-- Logo -->
-            <div class="d-flex align-items-center">
-                <img src="logo.png" alt="Logo" width="100" height="120" class="me-2">
-                <h1>LENS AND LIGHT</h1>
-            </div>
 
-            <!-- Navigation Menu -->
-            <nav class="navbar navbar-expand-sm">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+<!-- Header Section -->
+<header >
+    <div class="container-fluid d-flex justify-content-between align-items-center p-3">
+        <!-- Logo on the Left -->
+        <div class="d-flex align-items-center">
+            <img src="logo.png" alt="Logo" width="100" height="120" class="me-2">
+            <h1>LENS AND LIGHT</h1>
+        </div>
+
+        <!-- Navigation Links on the Right -->
+        <nav class="navbar navbar-expand-sm">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
                     <li class="nav-item"><a class="nav-link active">Booking</a></li>
                     <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
@@ -107,45 +137,135 @@
                     <li class="nav-item"><a class="nav-link" href="questionnaire.html">Questionnaire</a></li>
                     <li class="nav-item"><a class="nav-link" href="fun.html">Fun</a></li>
                     <li class="nav-item"><a class="nav-link" href="about us.html">About us</a></li>
-                </ul>
-            </nav>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div >
+    <!-- Header image with title overlay -->
+    <div class="header-image">
+        <img src="photographer1.jpeg" alt="Background Image">
+        <div class="overlay">
+            <h1>Schedule a Service</h1>
+            <p>Capture Your Moments with Us!</p>
         </div>
-    </header>
-
-    <!-- Main Content Section -->
-    <div>
-        <!-- Header Image with Overlay -->
-        <div class="header-image">
-            <img src="photographer1.jpeg" alt="Background Image">
-            <div class="overlay">
-                <h1>Schedule a Service</h1>
-                <p>Capture Your Moments with Us!</p>
-            </div>
+    </div>
+    <div class="container mt-5">
+        <!--  Introductory Text -->
+        <h2 class="text-center">Unleash the Magic of Memories!</h2>
+        <p class="text-center text-muted">"Crafting Moments That Last a Lifetime"</p>
+        <p class="text-center">
+            Step into a world where memories come alive. Each click of our camera captures a story, a feeling, a moment frozen in time.<br/> 
+            Whether it’s a joyful celebration, a tender embrace, or the beauty of nature, our lens sees it all, vividly and beautifully.<br/> 
+            Don’t let fleeting moments slip away; reserve your session and let us turn your experiences into timeless treasures.<br/> 
+            Start your journey by filling out the form below: choose from our immersive Photography Workshops to hone your skills,<br/>
+            or book a personalized session filled with memorable experiences. Let’s create your unforgettable moments together!
+        </p>
+    
+        <!-- Select Service Dropdown -->
+        <div class="mb-3">
+            <label for="service-select" class="form-label">Choose a Service</label>
+            <select class="form-select" id="service-select" required>
+                <option value="" disabled selected>Select a service</option>
+                <option value="portrait">Portrait Photography</option>
+                <option value="event">Event Photography</option>
+                <option value="commercial">Commercial Photography</option>
+            </select>
         </div>
+    
+        <!-- Search Button -->
+        <div class="mb-3">
+            <button id="search-btn" class="btn btn-custom w-100" disabled>Search</button>
+        </div>
+    
+        <!-- Table to display the selected service details -->
+        <table class="table table-bordered table-hover" id="service-table" style="display: none;">
+            <thead class="table-light">
+                <tr>
+                    <th>Service Name</th>
+                    <th>Description</th>
+                    <th>Duration</th>
+                    <th>Starting Price</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Dynamic rows will be inserted here -->
+            </tbody>
+        </table>
+    
+       
+    
 
-        <div class="container mt-5">
-            <!-- Introductory Text Section -->
-            <h2 class="text-center">Unleash the Magic of Memories!</h2>
-            <p class="text-center text-muted">"Crafting Moments That Last a Lifetime"</p>
-
-            <!-- Service Selection Section -->
-            <h2 class="text-center" id="services">Our Services</h2>
+    <!-- Session Photography Form -->
+    <div class="booking-form" id="booking">
+        <h3 class="form-title">Session Photography Booking Form</h3>
+        <form action="info@lenslight.com" method="get" enctype="text/plain">
             <div class="mb-3">
-                <label for="service-select" class="form-label">Choose a Service</label>
-                <select class="form-select" id="service-select">
+                <label for="service-session" class="form-label">Choose a Service</label>
+                <select class="form-select" id="service-session" name="service" required>
                     <option value="" disabled selected>Select a service</option>
                     <option value="portrait">Portrait Photography</option>
                     <option value="event">Event Photography</option>
                     <option value="commercial">Commercial Photography</option>
                 </select>
             </div>
-            <div class="text-center">
-                <button id="search-btn" class="btn btn-custom">Search</button>
+            <div class="mb-3">
+                <label for="name-session" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name-session" name="name" required>
             </div>
-        </div>
+            <div class="mb-3">
+                <label for="email-session" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email-session" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="date-session" class="form-label">Preferred Date</label>
+                <input type="date" class="form-control" id="date-session" name="date" required>
+            </div>
+            <div class="mb-3">
+                <label for="location-session" class="form-label">Preferred Location</label>
+                <input type="text" class="form-control" id="location-session" name="location" required>
+            </div>
+            <button type="submit" class="btn btn-o w-100" style="background-color: #e69500; color: white; border: none; padding: 10px; font-size: 16px; cursor: pointer; width: 100%;">
+                Register
+            </button>        </form>
     </div>
 
-    <!-- Footer Section -->
+    <!-- Workshop Registration Form -->
+    <div class="booking-form" id="workshop">
+        <h3 class="form-title">Photography Workshop Registration Form</h3>
+        <form action="info@lenslight.com" method="get" enctype="text/plain">
+            <div class="mb-3">
+                <label for="workshop-name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="workshop-name" name="workshop-name" required>
+            </div>
+            <div class="mb-3">
+                <label for="workshop-email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="workshop-email" name="workshop-email" required>
+            </div>
+            <div class="mb-3">
+                <label for="workshop-date" class="form-label">Preferred Workshop Date</label>
+                <input type="date" class="form-control" id="workshop-date" name="workshop-date" required>
+            </div>
+            <div class="mb-3">
+                <label for="workshop-location" class="form-label">Preferred Location</label>
+                <input type="text" class="form-control" id="workshop-location" name="workshop-location" required>
+            </div>
+            <div class="mb-3">
+                <label for="skill-level" class="form-label">Skill Level</label>
+                <select class="form-select" id="skill-level" name="skill-level" required>
+                    <option value="" disabled selected>Select your skill level</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-o w-100" style="background-color: #e69500; color: white; border: none; padding: 10px; font-size: 16px; cursor: pointer; width: 100%;">
+                Register
+            </button>            </form>
+    </div>
+</div>
+    <!-- Contact Details -->
     <footer>
         <p>&copy; 2024 Lens and Light. All Rights Reserved.</p>
         <p>Contact us : <a href="mailto:info@lensandlight.com">info@lensandlight.com</a> | Phone: +1-800-123-4567</p>
@@ -155,10 +275,8 @@
                 <a href="https://twitter.com/photonewspn"><i class="fab fa-twitter"></i></a>
             </span>
         </p>
-
-        <!-- External JavaScript file for table functionality -->
-        <script src="table.js"></script>
     </footer>
-</body>
+    <script src="table.js"></script>
 
+</body>
 </html>
