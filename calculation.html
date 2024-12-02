@@ -263,6 +263,14 @@
                 //Print total amount
                 document.getElementById("total-amount").innerHTML = `<br/>Total Amount: ${total.toFixed(3)} OMR`;
             }
+
+            //Angular frame works >>> The header changes after specified time using $timeout service
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope, $timeout) {
+                $scope.myHeader = "Welcome, dear customer!"; //First
+                $timeout(function () {
+                    $scope.myHeader = "Select your items and I will calculate the total for you right away!"; //Second
+                }, 5000); });
         </script>
     </head>
     <body>
