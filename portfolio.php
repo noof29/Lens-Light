@@ -1,3 +1,90 @@
+<?php
+// Database Connection Setup
+// Define database connection parameters
+$host = 'localhost';
+$db = 'portfolio_db';
+$user = 'root'; // Update this if your database username is different
+$pass = ''; // Update this if your database requires a password
+$dsn = "mysql:host=$host;dbname=$db"; // Data Source Name for the PDO connection
+
+try {
+    // Create a new PDO instance with error handling enabled
+    $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+} catch (PDOException $e) {
+    // Handle connection errors by displaying a user-friendly message and exiting
+    die("Connection failed: " . $e->getMessage());
+}
+
+// Handle Search Functionality
+$searchResults = []; // Initialize an empty array to store search results
+if (isset($_POST['search'])) { // Check if the search form was submitted
+    $category = $_POST['category']; // Retrieve the selected category from the form
+
+    if ($category) { // Proceed only if a category was selected
+        // Prepare an SQL statement to search for photographers in the selected category
+        $stmt = $pdo->prepare("SELECT * FROM portfolio WHERE category LIKE ?");
+        $stmt->execute(['%' . $category . '%']); // Execute the query with the category parameter
+        $searchResults = $stmt->fetchAll(); // Fetch all matching records
+    }
+}
+
+// Handle Insert Functionality
+if (isset($_POST['insert'])) { // Check if the insert form was submitted
+    // Retrieve form data
+    $name = $_POST['name'];
+    $category = $_POST['category'];
+    $description = $_POST['description'];
+    $imgSrc = $_POST['imgSrc']; // File uploads should be handled securely in a real application
+
+    // Prepare an SQL statement to insert a new photographer into the database
+    $stmt = $pdo->prepare("INSERT INTO portfolio (name, category, description, imgSrc) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$name, $category, $description, $imgSrc]); // Execute the query with form data
+}
+
+// Handle Delete Functionality
+if (isset($_GET['delete'])) { // Check if the delete action was triggered
+    $id = $_GET['delete']; // Retrieve the ID of the photographer to delete
+
+    // Prepare an SQL statement to delete the record with the specified ID
+    $stmt = $pdo->prepare("DELETE FROM portfolio WHERE id = ?");
+    $stmt->execute([$id]); // Execute the query with the ID parameter
+
+    // Redirect to the portfolio page to refresh the content
+    header("Location: portfolio.php");
+    exit; // Exit to ensure no further code is executed
+}
+
+// Handle Update Functionality
+if (isset($_POST['update'])) { // Check if the update form was submitted
+    // Retrieve form data
+    $id = (int)$_POST['id'];
+    $name = $_POST['name'];
+    $category = $_POST['category'];
+    $description = $_POST['description'];
+    $imgSrc = $_POST['imgSrc'];
+
+    // Prepare an SQL statement to update the photographer's details
+    $stmt = $pdo->prepare("UPDATE portfolio SET name = ?, category = ?, description = ?, imgSrc = ? WHERE id = ?");
+    $stmt->execute([$name, $category, $description, $imgSrc, $id]); // Execute the query with form data
+
+    // Redirect to the portfolio page to refresh the content
+    header("Location: portfolio.php");
+    exit; // Exit to ensure no further code is executed
+}
+
+// Handle Edit Functionality (Fetch Photographer by ID)
+$photographer = null; // Initialize a variable to store photographer details
+if (isset($_GET['edit'])) { // Check if the edit action was triggered
+    $id = (int)$_GET['edit']; // Retrieve the ID of the photographer to edit
+
+    // Prepare an SQL statement to fetch the photographer's details by ID
+    $stmt = $pdo->prepare("SELECT * FROM portfolio WHERE id = ?");
+    $stmt->execute([$id]); // Execute the query with the ID parameter
+    $photographer = $stmt->fetch(); // Fetch the photographer's details
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,8 +95,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!--External css-->
     <link href="styles.css" rel="stylesheet">
-
-
     <style>
         /* Styling for the introduction section */
         .intro-section {
@@ -63,7 +148,6 @@
         }
     </style>
 </head>
-
 <body style="background-color: #726e6e;">
     <!-- Header Section -->
     <header>
@@ -90,7 +174,7 @@
         </div>
     </header>
 
-    <!-- Introduction Section -->
+     <!-- Introduction Section -->
     <div class="intro-section">
         <h1 class="intro-title">Welcome to Our Portfolio</h1>
         <p style="font-size: 18pt; background-color: rgba(114, 110, 110, 0.4);">
@@ -103,64 +187,91 @@
         </p>
     </div>
 
-    <!-- Search Section (Form for selecting category and triggering search) -->
-<div class="search-form">
-    <!-- Label for the dropdown to select a photography category -->
-    <label for="searchDropdown" class="form-label">Select Category:</label>
+    <!-- Search Section -->
+    <div class="search-form">
+        <form method="POST" action="portfolio.php">
+            <label for="searchDropdown" class="form-label">Select Category:</label>
+            <select name="category" id="searchDropdown" class="form-select w-50 mx-auto">
+                <option value="">-- Select an Option --</option>
+                <option value="portrait">Portrait</option>
+                <option value="landscape">Landscape</option>
+                <option value="Architecture">Architecture</option>
+                <option value="candid">Candid</option>
+                <option value="commercial">Commercial</option>
 
-    <!-- Dropdown list (select) for category selection -->
-    <select id="searchDropdown" class="form-select w-50 mx-auto">
-        <!--prompt message-->
-        <option value="">-- Select an Option --</option>
-    </select>
+                <!-- Add other categories here -->
+            </select>
+            <button class="btn btn-warning mt-3" name="search" type="submit">Search</button>
+        </form>
+    </div>
 
-    <!-- Search button to trigger the search function -->
-    <!-- When clicked, it will filter and display photographers based on the selected category -->
-    <button class="btn btn-warning mt-3" onclick="search()">Search</button>
-</div>
+    <!-- Photography Category Table -->
+    <div class="container category-section">
+        <table class="category-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Category</th>
+                    <th>Photographer</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($searchResults): ?>
+                    <?php foreach ($searchResults as $photographer): ?>
+                        <tr>
+                            <td><img src="<?= $photographer['imgSrc']; ?>" alt="<?= $photographer['category']; ?>" class="table-img"></td>
+                            <td><?= $photographer['category']; ?></td>
+                            <td><?= $photographer['name']; ?></td>
+                            <td><?= $photographer['description']; ?></td>
+                            <td>
+                                <a href="?delete=<?= $photographer['id']; ?>" class="btn btn-danger">Delete</a>
+                                <a href="update.php?id=<?= $photographer['id']; ?>" class="btn btn-warning">Update</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr><td colspan="5" style="text-align: center;">No results found</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 
-<!-- Photography Category Table (Displays photographers and their info) -->
-<div class="container category-section">
-    <!-- Table for displaying photographer data -->
-    <!-- The table's content will be dynamically populated via JavaScript -->
-    <table id="photographyTable" class="category-table">
-        <tbody>
-            <!-- Table rows will be added dynamically based on the selected category -->
-            <!-- Initially, the table is empty, and content is added via JavaScript -->
-        </tbody>
-    </table>
-</div>
-
-
-<!-- JavaScript Section -->
-<script>
+    <!-- Insert Photographer Form -->
+    <div class="container">
+        <h3>Insert New Photographer</h3>
+        <form method="POST" action="portfolio.php">
+            <label for="name">Photographer Name:</label>
+            <input type="text" name="name" class="form-control" required>
+            <label for="category">Category:</label>
+            <input type="text" name="category" class="form-control" required>
+            <label for="description">Description:</label>
+            <textarea name="description" class="form-control" required></textarea>
+            <label for="imgSrc">Image Source:</label>
+            <input type="text" name="imgSrc" class="form-control" required>
+            <button type="submit" name="insert" class="btn btn-success mt-3">Insert Photographer</button>
+        </form>
+    </div>
+    <script>
     /**
-     * Photographer constructor function
-     * Creates an object to represent a photographer's information.
-     * @param {string} name - Name of the photographer.
-     * @param {string} category - The category of photography.
-     * @param {string} description - A description of the photographer's style and expertise.
-     * @param {string} imgSrc - The file path for the image representing the photographer's work.
+     * Filters the photographer data based on selected category from dropdown.
      */
-    function Photographer(name, category, description, imgSrc) {
-        this.name = name; // Assign the photographer's name
-        this.category = category; // Assign the photography category
-        this.description = description; // Assign the photographer's description
-        this.imgSrc = imgSrc; // Assign the file path for the photographer's image
+    function search() {
+        const searchTerm = document.getElementById('searchDropdown').value.toLowerCase(); // Get the selected category from the dropdown
+
+        // If no category is selected or "Select an Option" is chosen, reset the table
+        if (!searchTerm || searchTerm === "") {
+            displayTable(photographers);  // Reset to show all photographers
+        } else {
+            // Filter photographers array based on the selected category
+            const results = photographers.filter(p => p.category.toLowerCase() === searchTerm);
+            displayTable(results);  // Display the filtered photographers in the table
+        }
     }
 
-        // An array of photographer objects, each representing a different photographer and their details
-        const photographers = [
-            new Photographer("Sarah Al Manji", "Portrait", "Sarah is a gifted portrait photographer who is renowned for capturing her subjects' genuine personalities. She produces personal and emotive photographs that showcase her customers' personalities and feelings since she has an excellent eye for detail and a love of telling stories. Sarah's art radiates warmth and genuineness, whether it's a family portrait or a business headshot.", "portrait.jpeg"),
-            new Photographer("Ahmed Al Harthi", "Landscape", "Ahmed is a passionate landscape photographer who uses his camera to capture the splendor of the natural world. His artwork frequently captures the ideal lighting and dramatic weather conditions, showcasing breathtaking panoramas ranging from tranquil seascapes to towering mountain ranges. Every photograph he takes reflects his profound love of the outdoors, which makes his work an uplifting ode to nature.", "landscape.jpeg"),
-            new Photographer("Reem Al Amri", "Commercial and Event", "Reem is an expert in event and commercial photography, assisting companies and brands in using compelling imagery to communicate their messages. Her work ranges widely, from lifestyle photos and advertising campaigns to business events and product launches. Reem's strategy ensures that every image appeals to the target audience by fusing creativity with a strong emphasis on brand identity.", "event.jpeg"),
-            new Photographer("Zaid Al Shamsi", "Architecture", "Zaid is a talented architecture photographer who has an excellent sense of symmetry, light and shadow interaction, and detail. Zaid has a passion for portraying the beauty of structures, and his work includes detailed interiors, modern skyscrapers, and historic buildings. By emphasizing angles and views that highlight distinctive elements, his photography captures the uniqueness and beauty of architectural projects. Through his photography, Zaid aims to convey the narrative of every area, highlighting its composition and character.", "architecture.jpg"),
-            new Photographer("Mia Al Maskari", "Candid", "Mia is an enthusiastic candid photographer who focuses on catching unplanned moments in daily life. Her art demonstrates real feelings and spontaneous exchanges, highlighting the beauty of life's ephemeral moments. Whether it's a happy grin, a contemplative look, or a peaceful moment of introspection, Mia's photography captures the moments that are frequently overlooked. Through her photographs, she hopes to celebrate the genuineness of human experiences and arouse sentiments of connection and nostalgia.", "candid.jpeg")
-        ];
-
-        /**
-     * Populates the dropdown menu with photography categories.
-     * Ensures no duplicate categories are added to the dropdown.
+    /**
+     * Populates the dropdown menu with photography categories from the photographers array.
      */
     function populateDropdown() {
         const dropdown = document.getElementById('searchDropdown'); // Get the dropdown element by its ID
@@ -217,26 +328,6 @@
     }
 
     /**
-     * Filters and displays photographers based on the selected category.
-     * If no photographers match the selected category, displays a "No results found" message.
-     */
-    function search() {
-        const searchTerm = document.getElementById('searchDropdown').value.toLowerCase(); // Get the selected category from the dropdown
-        const results = photographers.filter(
-            p => p.category.toLowerCase() === searchTerm // Filter photographers by matching category (case-insensitive)
-        );
-
-        // Check if any results are found
-        if (results.length === 0) {
-            // Display a message indicating no results were found
-            const tableBody = document.getElementById('photographyTable').getElementsByTagName('tbody')[0];
-            tableBody.innerHTML = '<tr><td colspan="2" style="text-align:center;">No results found</td></tr>';
-        } else {
-            displayTable(results); // Display the filtered photographers in the table
-        }
-    }
-
-    /**
      * Initializes the page by populating the dropdown menu and displaying all photographers.
      * This function is called when the script is loaded to ensure the page is set up correctly.
      */
@@ -247,7 +338,8 @@
 
     // Call the initializePage function to set up the page on load
     initializePage();
-    </script>
+</script>
+
 
     <!-- Footer -->
     <footer>
@@ -260,5 +352,6 @@
             </span>
         </p>
     </footer>
+
 </body>
 </html>
