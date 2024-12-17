@@ -126,21 +126,21 @@
 <!-- Questionnaire Form Section -->
 <div class="container">
     <div class="form-title">We Value Your Feedback!</div>
-    <form id="questionnaireForm" action="mailto:info@lensandlight.com" method="GET" enctype="text/plain" onsubmit="return validateForm()">
+    <form id="questionnaireForm" action="process_form.php" method="POST" onsubmit="return validateForm()">
 
         <div class="mb-3">
             <label for="name" class="form-label">Your Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
         </div>
-
+    
         <div class="mb-3">
             <label for="email" class="form-label">Email Address</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
         </div>
-
+    
         <div class="mb-3">
             <label for="experience" class="form-label">Rate your experience</label>
-            <select class="form-select" id="experience" required>
+            <select class="form-select" id="experience" name="experience" required>
                 <option value="" selected disabled>Choose an option</option>
                 <option value="Excellent">Excellent</option>
                 <option value="Good">Good</option>
@@ -148,30 +148,31 @@
                 <option value="Poor">Poor</option>
             </select>
         </div>
-
+    
         <div class="mb-3">
             <label class="form-label">What services are you interested in?</label>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="services" id="service1" value="Portrait Photography">
+                <input class="form-check-input" type="checkbox" name="services[]" id="service1" value="Portrait Photography">
                 <label class="form-check-label" for="service1">Portrait Photography</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="services" id="service2" value="Event Photography">
+                <input class="form-check-input" type="checkbox" name="services[]" id="service2" value="Event Photography">
                 <label class="form-check-label" for="service2">Event Photography</label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="services" id="service3" value="Commercial Photography">
+                <input class="form-check-input" type="checkbox" name="services[]" id="service3" value="Commercial Photography">
                 <label class="form-check-label" for="service3">Commercial Photography</label>
             </div>
         </div>
-
+    
         <div class="mb-3">
             <label for="comments" class="form-label">Additional Comments</label>
-            <textarea class="form-control" id="comments" rows="4" placeholder="Your feedback..."></textarea>
+            <textarea class="form-control" id="comments" name="comments" rows="4" placeholder="Your feedback..."></textarea>
         </div>
-
+    
         <button type="submit" class="btn btn-custom">Submit</button>
     </form>
+    
 </div>
 
 <!-- Footer -->
