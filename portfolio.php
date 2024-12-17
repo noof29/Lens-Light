@@ -1,94 +1,155 @@
 <?php
 // Database Connection Setup
-// Define database connection parameters
-$host = 'localhost';
-$db = 'portfolio_db';
-$user = 'root'; // Update this if your database username is different
-$pass = ''; // Update this if your database requires a password
-$dsn = "mysql:host=$host;dbname=$db"; // Data Source Name for the PDO connection
+// The following variables store the credentials required to connect to the database
+$host = 'localhost'; // Hostname of the database server
+$db = 'portfolio_db'; // Name of the database
+$user = 'root'; // Database username
+$pass = ''; // Database password (leave blank for default setups)
+
+// Data Source Name (DSN) is used to define the database type and its location
+$dsn = "mysql:host=$host;dbname=$db";
 
 try {
-    // Create a new PDO instance with error handling enabled
+    // PDO instance creation with error mode set to exceptions for better error handling
     $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 } catch (PDOException $e) {
-    // Handle connection errors by displaying a user-friendly message and exiting
+    // If connection fails, the script terminates, and the error message is displayed
     die("Connection failed: " . $e->getMessage());
 }
 
-// Handle Search Functionality
-$searchResults = []; // Initialize an empty array to store search results
-if (isset($_POST['search'])) { // Check if the search form was submitted
-    $category = $_POST['category']; // Retrieve the selected category from the form
+// PHP Class to Manage Table Rows
+// This class defines the structure of a photographer record and provides a method to render it as a table row
+class Photographer {
+    // Properties to store photographer details
+    public $id;
+    public $name;
+    public $category;
+    public $description;
+    public $imgSrc;
 
-    if ($category) { // Proceed only if a category was selected
-        // Prepare an SQL statement to search for photographers in the selected category
-        $stmt = $pdo->prepare("SELECT * FROM portfolio WHERE category LIKE ?");
-        $stmt->execute(['%' . $category . '%']); // Execute the query with the category parameter
-        $searchResults = $stmt->fetchAll(); // Fetch all matching records
+    // Constructor to initialize the Photographer object with details
+    public function __construct($id, $name, $category, $description, $imgSrc) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->category = $category;
+        $this->description = $description;
+        $this->imgSrc = $imgSrc;
+    }
+
+    // Method to render the photographer's details as a table row in HTML
+    public function renderRow() {
+        return "
+        <tr>
+            <td><img src='{$this->imgSrc}' alt='{$this->category}' class='table-img'></td>
+            <td>{$this->category}</td>
+            <td>{$this->name}</td>
+            <td>{$this->description}</td>
+            <td>
+                <a href='?delete={$this->id}' class='btn btn-danger'>Delete</a>
+                <a href='?edit={$this->id}' class='btn btn-warning'>Edit</a>
+            </td>
+        </tr>
+        ";
     }
 }
 
-// Handle Insert Functionality
-if (isset($_POST['insert'])) { // Check if the insert form was submitted
-    // Retrieve form data
-    $name = $_POST['name'];
-    $category = $_POST['category'];
-    $description = $_POST['description'];
-    $imgSrc = $_POST['imgSrc']; // File uploads should be handled securely in a real application
+// Array to Store Table Rows
+// The $photographers array will store Photographer objects to be displayed in the table
+$photographers = [];
 
-    // Prepare an SQL statement to insert a new photographer into the database
-    $stmt = $pdo->prepare("INSERT INTO portfolio (name, category, description, imgSrc) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$name, $category, $description, $imgSrc]); // Execute the query with form data
+// Fetch Data from Database to Display in Table
+// This query retrieves all records from the "portfolio" table
+$stmt = $pdo->query("SELECT * FROM portfolio");
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    // Each row is converted into a Photographer object and added to the $photographers array
+    $photographers[] = new Photographer(
+        $row['id'],
+        $row['name'],
+        $row['category'],
+        $row['description'],
+        $row['imgSrc']
+    );
 }
 
-// Handle Delete Functionality
-if (isset($_GET['delete'])) { // Check if the delete action was triggered
-    $id = $_GET['delete']; // Retrieve the ID of the photographer to delete
+// Handle Form Submissions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Handle Search
+    if (isset($_POST['search'])) {
+        $category = $_POST['category']; // Category selected in the search form
+        if ($category) {
+            // Prepare and execute a SQL query to search for photographers matching the selected category
+            $stmt = $pdo->prepare("SELECT * FROM portfolio WHERE category LIKE ?");
+            $stmt->execute(['%' . $category . '%']);
+            $photographers = []; // Clear the current array to store search results
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $photographers[] = new Photographer(
+                    $row['id'],
+                    $row['name'],
+                    $row['category'],
+                    $row['description'],
+                    $row['imgSrc']
+                );
+            }
+        }
+    }
 
-    // Prepare an SQL statement to delete the record with the specified ID
+    // Handle Insert
+    if (isset($_POST['insert'])) {
+        // Collect form data for the new photographer
+        $name = $_POST['name'];
+        $category = $_POST['category'];
+        $description = $_POST['description'];
+        $imgSrc = $_POST['imgSrc'];
+
+        // Insert the new photographer's details into the database
+        $stmt = $pdo->prepare("INSERT INTO portfolio (name, category, description, imgSrc) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$name, $category, $description, $imgSrc]);
+        header("Location: portfolio.php"); // Redirect to refresh the page
+        exit; // Stop script execution after redirection
+    }
+
+    // Handle Update
+    if (isset($_POST['update'])) {
+        // Collect form data for the photographer to be updated
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $category = $_POST['category'];
+        $description = $_POST['description'];
+        $imgSrc = $_POST['imgSrc'];
+
+        // Update the photographer's details in the database
+        $stmt = $pdo->prepare("UPDATE portfolio SET name = ?, category = ?, description = ?, imgSrc = ? WHERE id = ?");
+        $stmt->execute([$name, $category, $description, $imgSrc, $id]);
+        header("Location: portfolio.php"); // Redirect to refresh the page
+        exit;
+    }
+}
+
+// Handle Delete
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete']; // ID of the photographer to be deleted
+    // Delete the photographer's record from the database
     $stmt = $pdo->prepare("DELETE FROM portfolio WHERE id = ?");
-    $stmt->execute([$id]); // Execute the query with the ID parameter
-
-    // Redirect to the portfolio page to refresh the content
-    header("Location: portfolio.php");
-    exit; // Exit to ensure no further code is executed
+    $stmt->execute([$id]);
+    header("Location: portfolio.php"); // Redirect to refresh the page
+    exit;
 }
 
-// Handle Update Functionality
-if (isset($_POST['update'])) { // Check if the update form was submitted
-    // Retrieve form data
-    $id = (int)$_POST['id'];
-    $name = $_POST['name'];
-    $category = $_POST['category'];
-    $description = $_POST['description'];
-    $imgSrc = $_POST['imgSrc'];
-
-    // Prepare an SQL statement to update the photographer's details
-    $stmt = $pdo->prepare("UPDATE portfolio SET name = ?, category = ?, description = ?, imgSrc = ? WHERE id = ?");
-    $stmt->execute([$name, $category, $description, $imgSrc, $id]); // Execute the query with form data
-
-    // Redirect to the portfolio page to refresh the content
-    header("Location: portfolio.php");
-    exit; // Exit to ensure no further code is executed
-}
-
-// Handle Edit Functionality (Fetch Photographer by ID)
-$photographer = null; // Initialize a variable to store photographer details
-if (isset($_GET['edit'])) { // Check if the edit action was triggered
-    $id = (int)$_GET['edit']; // Retrieve the ID of the photographer to edit
-
-    // Prepare an SQL statement to fetch the photographer's details by ID
+// Handle Edit
+$editingPhotographer = null;
+if (isset($_GET['edit'])) {
+    $id = $_GET['edit']; // ID of the photographer to be edited
+    // Fetch the photographer's details from the database
     $stmt = $pdo->prepare("SELECT * FROM portfolio WHERE id = ?");
-    $stmt->execute([$id]); // Execute the query with the ID parameter
-    $photographer = $stmt->fetch(); // Fetch the photographer's details
+    $stmt->execute([$id]);
+    $editingPhotographer = $stmt->fetch(PDO::FETCH_ASSOC); // Store the data for pre-filling the form
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Portfolio</title>
+<title>Portfolio</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- social icons -->
@@ -96,8 +157,8 @@ if (isset($_GET['edit'])) { // Check if the edit action was triggered
     <!--External css-->
     <link href="styles.css" rel="stylesheet">
     <style>
-        /* Styling for the introduction section */
-        .intro-section {
+         /* Styling for the introduction section */
+         .intro-section {
             background-image: url(Sunset-header.jpg); 
             background-size: cover;
             background-position: center;
@@ -173,8 +234,7 @@ if (isset($_GET['edit'])) { // Check if the edit action was triggered
             </nav>
         </div>
     </header>
-
-     <!-- Introduction Section -->
+    <!-- Introduction Section -->
     <div class="intro-section">
         <h1 class="intro-title">Welcome to Our Portfolio</h1>
         <p style="font-size: 18pt; background-color: rgba(114, 110, 110, 0.4);">
@@ -187,162 +247,73 @@ if (isset($_GET['edit'])) { // Check if the edit action was triggered
         </p>
     </div>
 
-    <!-- Search Section -->
-    <div class="search-form">
-        <form method="POST" action="portfolio.php">
-            <label for="searchDropdown" class="form-label">Select Category:</label>
-            <select name="category" id="searchDropdown" class="form-select w-50 mx-auto">
-                <option value="">-- Select an Option --</option>
+    <div class="container">
+        <!-- Search Form -->
+        <form method="POST" class="mb-3">
+            <label>Select Category:</label>
+            <select name="category" class="form-select">
+            <option value="">-- Select an Option --</option>
                 <option value="portrait">Portrait</option>
                 <option value="landscape">Landscape</option>
                 <option value="Architecture">Architecture</option>
                 <option value="candid">Candid</option>
                 <option value="commercial">Commercial</option>
-
-                <!-- Add other categories here -->
             </select>
-            <button class="btn btn-warning mt-3" name="search" type="submit">Search</button>
+            <button class="btn btn-success mt-2" name="search" type="submit">Search</button>
         </form>
-    </div>
 
-    <!-- Photography Category Table -->
-    <div class="container category-section">
-        <table class="category-table">
+        <!-- Table of Photographers -->
+        <table class="table">
             <thead>
                 <tr>
                     <th>Image</th>
                     <th>Category</th>
-                    <th>Photographer</th>
+                    <th>Name</th>
                     <th>Description</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if ($searchResults): ?>
-                    <?php foreach ($searchResults as $photographer): ?>
-                        <tr>
-                            <td><img src="<?= $photographer['imgSrc']; ?>" alt="<?= $photographer['category']; ?>" class="table-img"></td>
-                            <td><?= $photographer['category']; ?></td>
-                            <td><?= $photographer['name']; ?></td>
-                            <td><?= $photographer['description']; ?></td>
-                            <td>
-                                <a href="?delete=<?= $photographer['id']; ?>" class="btn btn-danger">Delete</a>
-                                <a href="update.php?id=<?= $photographer['id']; ?>" class="btn btn-warning">Update</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr><td colspan="5" style="text-align: center;">No results found</td></tr>
-                <?php endif; ?>
+                <?php foreach ($photographers as $photographer) {
+                    // Render each photographer's data as a table row
+                    echo $photographer->renderRow();
+                } ?>
             </tbody>
         </table>
-    </div>
 
-    <!-- Insert Photographer Form -->
-    <div class="container">
-        <h3>Insert New Photographer</h3>
-        <form method="POST" action="portfolio.php">
-            <label for="name">Photographer Name:</label>
-            <input type="text" name="name" class="form-control" required>
-            <label for="category">Category:</label>
-            <input type="text" name="category" class="form-control" required>
-            <label for="description">Description:</label>
-            <textarea name="description" class="form-control" required></textarea>
-            <label for="imgSrc">Image Source:</label>
-            <input type="text" name="imgSrc" class="form-control" required>
-            <button type="submit" name="insert" class="btn btn-success mt-3">Insert Photographer</button>
+        <!-- Insert Photographer -->
+        <h2>Insert New Photographer</h2>
+        <form method="POST">
+            <input type="text" name="name" class="form-control mb-2" placeholder="Name" required>
+            <input type="text" name="category" class="form-control mb-2" placeholder="Category" required>
+            <textarea name="description" class="form-control mb-2" placeholder="Description" required></textarea>
+            <input type="text" name="imgSrc" class="form-control mb-2" placeholder="Image URL" required>
+            <button class="btn btn-success" name="insert" type="submit">Insert</button>
         </form>
+
+        <!-- Edit Photographer -->
+        <?php if ($editingPhotographer): ?>
+            <!-- Edit Photographer Section -->
+            <!-- This section displays a form to edit an existing photographer's details -->
+            <h2>Edit Photographer</h2>
+            <form method="POST">
+                <!-- Hidden field to store the photographer's ID -->
+                <input type="hidden" name="id" value="<?= $editingPhotographer['id'] ?>">
+                <!-- Input field for photographer's name -->
+                <input type="text" name="name" class="form-control mb-2" value="<?= $editingPhotographer['name'] ?>" required>
+                <!-- Input field for photographer's category -->
+                <input type="text" name="category" class="form-control mb-2" value="<?= $editingPhotographer['category'] ?>" required>
+                <!-- Textarea for photographer's description -->
+                <textarea name="description" class="form-control mb-2" required><?= $editingPhotographer['description'] ?></textarea>
+                <!-- Input field for photographer's image source -->
+                <input type="text" name="imgSrc" class="form-control mb-2" value="<?= $editingPhotographer['imgSrc'] ?>" required>
+                <!-- Button to submit the updated details -->
+                <button class="btn btn-warning" name="update" type="submit">Update</button>
+            </form>
+        <?php endif; ?>
     </div>
-    <script>
-    /**
-     * Filters the photographer data based on selected category from dropdown.
-     */
-    function search() {
-        const searchTerm = document.getElementById('searchDropdown').value.toLowerCase(); // Get the selected category from the dropdown
-
-        // If no category is selected or "Select an Option" is chosen, reset the table
-        if (!searchTerm || searchTerm === "") {
-            displayTable(photographers);  // Reset to show all photographers
-        } else {
-            // Filter photographers array based on the selected category
-            const results = photographers.filter(p => p.category.toLowerCase() === searchTerm);
-            displayTable(results);  // Display the filtered photographers in the table
-        }
-    }
-
-    /**
-     * Populates the dropdown menu with photography categories from the photographers array.
-     */
-    function populateDropdown() {
-        const dropdown = document.getElementById('searchDropdown'); // Get the dropdown element by its ID
-        const categories = []; // Initialize an empty array to store unique categories
-
-        // Loop through the photographers array to extract categories
-        for (const photographer of photographers) {
-            // Check if the category is not already in the categories array
-            if (!categories.includes(photographer.category)) {
-                categories.push(photographer.category); // Add unique category to the categories array
-
-                // Create a new <option> element for the dropdown menu
-                const option = document.createElement('option');
-                option.value = photographer.category.toLowerCase(); // Set the option's value (lowercase for comparison)
-                option.textContent = photographer.category; // Set the display text for the option
-                dropdown.appendChild(option); // Add the option to the dropdown
-            }
-        }
-    }
-
-    /**
-     * Displays photographer data in a table format.
-     * Clears the existing table content and populates it with the provided data.
-     * @param {Array} data - An array of photographer objects to be displayed in the table.
-     */
-    function displayTable(data) {
-        const tableBody = document.getElementById('photographyTable').getElementsByTagName('tbody')[0]; // Get the table's <tbody> element
-        tableBody.innerHTML = ''; // Clear any existing rows in the table body
-
-        // Loop through the data array to create table rows for each photographer
-        for (const photographer of data) {
-            const row = document.createElement('tr'); // Create a new row
-
-            // Create a table cell for the image
-            const imgCell = document.createElement('td');
-            const img = document.createElement('img'); // Create an <img> element
-            img.src = photographer.imgSrc; // Set the image source (file path)
-            img.alt = `${photographer.category} photography`; // Set alternative text for the image
-            img.className = 'table-img'; // Assign a CSS class for styling
-            imgCell.appendChild(img); // Add the image to the cell
-            row.appendChild(imgCell); // Add the image cell to the row
-
-            // Create a table cell for the photographer's information
-            const infoCell = document.createElement('td');
-            infoCell.innerHTML = `
-                <div class="category-name">${photographer.category}</div> <!-- Display category name -->
-                <div class="photographer-name">${photographer.name}</div> <!-- Display photographer name -->
-                <p>${photographer.description}</p> <!-- Display photographer description -->
-            `;
-            row.appendChild(infoCell); // Add the information cell to the row
-
-            tableBody.appendChild(row); // Append the row to the table body
-        }
-    }
-
-    /**
-     * Initializes the page by populating the dropdown menu and displaying all photographers.
-     * This function is called when the script is loaded to ensure the page is set up correctly.
-     */
-    function initializePage() {
-        populateDropdown(); // Populate the dropdown menu with photography categories
-        displayTable(photographers); // Display all photographers in the table by default
-    }
-
-    // Call the initializePage function to set up the page on load
-    initializePage();
-</script>
-
-
-    <!-- Footer -->
-    <footer>
+     <!-- Footer -->
+     <footer>
         <p>&copy; 2024 Lens and Light. All Rights Reserved.</p>
         <p>Contact us : <a href="mailto:info@lensandlight.com">info@lensandlight.com</a> | Phone: +1-800-123-4567</p>
         <p>Follow us on:
@@ -352,6 +323,5 @@ if (isset($_GET['edit'])) { // Check if the edit action was triggered
             </span>
         </p>
     </footer>
-
 </body>
 </html>
