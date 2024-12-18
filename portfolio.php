@@ -224,7 +224,7 @@ if (isset($_GET['edit'])) {
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link active" href="portfolio.php">Portfolio</a></li>
                     <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
-                    <li class="nav-item"><a class="nav-link" href="store.html">Store</a></li>
+                    <li class="nav-item"><a class="nav-link" href="store.php">Store</a></li>
                     <li class="nav-item"><a class="nav-link" href="calculation.html">Calculation</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact us.html">Contact us</a></li>
                     <li class="nav-item"><a class="nav-link" href="questionnaire.html">Questionnaire</a></li>
