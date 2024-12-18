@@ -54,46 +54,43 @@
                 color: white;                              /* Changes text color to white */
             }
             
+            /* Styles for the details section */
+            .details {
+                max-height: 170px;                           /* Sets a maximum height for the details section */
+                font-family: Calibri, sans-serif;            /* Sets the font style */
+                font-size: 18px;                             /* Text size */
+                color: #333;                               /* Text color */
+            }
+
+            /* Styles for text and number input fields */
+            input[type="text"], input[type="number"] {
+                width: 100%;                                 /* Makes input fields stretch across the container */
+                max-width: 300px;                            /* Limits maximum width of input fields */
+                padding: 10px;                               /* Inner spacing inside the input box */
+                margin: 10px 0;                              /* Spacing around input fields */
+                border: 1px solid #ccc;                    /* Adds a light gray border */
+                border-radius: 4px;                          /* Rounds the corners of input fields */
+            }
+            
             /* Adds spacing for the bill container section */
             #bill-container { margin-top: 20px; }
             
-            /* Styles for formTable */
-            .formTable {
-                width: 100%;                                 /* Makes the table stretch across its container */
-                margin: 10px 10px;                           /* Adds spacing for the table */
-            }
-
-            /* Margin for labels */
-            label {
-                margin-bottom: 10px;
-            }
-
-            /* Styling for input fields */
-            .form-select, input[type='text'], input[type='tel'] {
-                width: 100%;
-                border-radius: 7px;
-                margin-bottom: 10px;
-                padding: 5px 5px;
-                margin-left: 50px;
-                height: 50px;
-            }
-
-            /* Styles for table */
-            #billTable {
+            /* Styles for tables */
+            table {
                 width: 100%;                                 /* Makes the table stretch across its container */
                 border-collapse: collapse;                   /* Removes spacing between table cells */
                 margin-top: 20px;                            /* Adds top spacing for the table */
             }
             
             /* Styles for table headers and cells */
-            #billTable th, #billTable td {
+            table th, table td {
                 border: 1px solid #ccc;                    /* Adds a border to each cell */
                 padding: 10px;                               /* Inner spacing within each cell */
                 text-align: left;                            /* Aligns text to the left */
             }
             
             /* Styles specifically for table headers */
-            #billTable th { background-color: #f8f8f8; }        /* Light gray background for headers */
+            table th { background-color: #f8f8f8; }        /* Light gray background for headers */
         </style>
         <!-- Header with Logo and Navigation -->
         <header>
@@ -122,44 +119,69 @@
         </header>
         <script>
             //This function creates product object
-            function Product(id, brand, description, price) {
-                this.id = id; this.brand = brand;
-                this.description = description; this.price = price;
+            function Product(code, name, brand, model, color, price) {
+                this.code = code; this.name = name;
+                this.brand = brand; this.model = model;
+                this.color = color; this.price = price;
             }
             
             //Construct an array for product objects
             const products = [
-                new Product(1, "CANON", "Canon EOS 250D SLR Camera Body Black With EF-S 18-55MM F3.5-5.6 III & EF 75-300MMF4-5.6 III Lens", 279.901),
-                new Product(2, "NIKON", "Nikon Z30 Digital Camera Black With 16-50mm F/3.5-6.3 Vlogger Kit", 449.880),
-                new Product(3, "CANON", "Canon Zoemini S2 ZV223 Instant Camera Colour Photo Printer", 37.550),
-                new Product(4, "CANON", "Canon CP1500BK Photo Printer", 49.900),
-                new Product(5, "CANON", "Canon EF 50MM F/1.8 STM Camera Lens", 62.579),
-                new Product(6, "LEXAR", "Lexar 128GB SDXC Card 1667X Professional", 10.900)
+                new Product("A1", "Camera", "CANON", "EOS 250D SLR", "black", 279.901),
+                new Product("A2", "Camera", "NIKON", "Z30 Digital", "black", 449.880),
+                new Product("A3", "Instant Colour Photo Printer Camera", "CANON", "Zoemini S2 ZV223", "pink", 37.550),
+                new Product("B1", "Photo Printer", "CANON", "CP1500BK", "black", 49.900),
+                new Product("C1", "Camera Lens", "CANON", "EF 50MM F/1.8 STM", "black", 62.579),
+                new Product("D1", "Memory Card", "LEXAR", "128GB SDXC Card 1667X Professional", "black", 10.900)
             ];
             
+            //This function displays details of each product
+            function viewDetails(index) {
+                const product = products[index];
+                document.getElementById("details").innerHTML = `
+                <strong>Item Code:</strong> ${product.code}<br/>
+                <strong>Name:</strong> ${product.name}<br/>
+                <strong>Brand:</strong> ${product.brand}<br/>
+                <strong>Model:</strong> ${product.model}<br/>
+                <strong>Color:</strong> ${product.color}<br/>
+                <strong>Price:</strong> ${product.price.toFixed(3)} OMR`;
+            }
+            
             //Tracks number of items
-            var itemsCount = 6;
-            var countEmpty = 0;
+            var itemsCount = 1;
+            
+            //This function adds new item row in the form
+            function addNewItemRow() {
+                if (itemsCount >= 6) { //Limits the total number of items
+                    alert("You cannot add more than 6 items.");
+                    return;
+                }
+                itemsCount++; //Increment itemsCount
+                const row = document.createElement("tr"); //Creates a row for new item
+                row.id = "item" + itemsCount; //Adds id to the row
+                row.innerHTML = `
+                <th><label for="item${itemsCount}Code">Item ${itemsCount} Code:</label></th>
+                <td><input type="text" id="item${itemsCount}Code" name="code" placeholder="Enter item code" required></td>
+                <th><label for="item${itemsCount}Qty">Item ${itemsCount} Quantity:</label></th>
+                <td><input type="number" id="item${itemsCount}Qty" name="quantity" min="1" required></td>`;
+                document.getElementById("formTable").appendChild(row); //Appends the row to the form table
+            }
+            
+            //This function removes last added item row
+            function removeLastItemRow() {
+                if (itemsCount > 1) { //Checks if there is more than one item
+                    document.getElementById("item"+itemsCount).remove(); //Remove item row
+                    itemsCount--; //Decrement itemsCount
+                } else { alert("At least one item must remain!"); } //Ensures at least one item remains
+            }
             
             //This function calculates total cost and displays the bill
             function calculateBill() {
                 //Initialize total to 0
                 var total = 0;
-                //Initialize discountRate to 0
-                var discountRate = 0;
-
-                //Get age value
-                const age = document.getElementById("age").value;
-                
-                //Check the age if it is within the range
-                if (age >= 20 && age <= 25) {
-                    //Assign discountRate to 0.10
-                    discountRate = 0.10;
-                }
 
                 //Create table element
                 const table = document.createElement("table");
-                table.id = "billTable";
                 
                 //Set headings to the table
                 table.innerHTML = `
@@ -167,54 +189,52 @@
                     <th>Description</th>
                     <th>Quantity</th>
                     <th>Price per Unit</th>
-                    <th>Discounted Price</th>
                     <th>Total</th>
                 </tr>`;
                 
                 //Loop through all items
                 for (let i = 1; i <= itemsCount; i++) {
-                    //Get item ID by id
-                    const itemID = parseInt(document.getElementById(`item${i}ID`).value);
-                    //Get quantity value by id
+                    //Get code value by id
+                    const code = document.getElementById(`item${i}Code`).value.trim().toUpperCase();
+                    //Get quantity value by id & convert it to integer
                     const quantity = parseInt(document.getElementById(`item${i}Qty`).value);
-
-                    //Validate item selection
-                    if (!itemID || !quantity) {
-                        countEmpty++;
+                    
+                    //Validate inputs: item code & item quantity
+                    if (!code || isNaN(quantity) || quantity < 1) {
+                        alert("Please ensure all item codes and quantities are valid.");
+                        return; //Return from the function
                     }
-                    else {
-                        //Initialize foundProduct to null
-                        var foundProduct = null;
-                        //Checks if the item id is exist in products array
-                        for (var product of products) {
-                            if (product.id == itemID) {
-                                foundProduct = product; //Assign foundProduct to the product
-                            }
+                    
+                    //Initialize foundProduct to null
+                    var foundProduct = null;
+                    //Checks if the item code is exist in products array
+                    for (var product of products) {
+                        if (product.code == code) {
+                            foundProduct = product; //Assign foundProduct to the product
                         }
-
-                        //Calculates discounted price
-                        const discountedPrice = foundProduct.price * (1 - discountRate);
-                        //Calculates total price
-                        const totalPrice = discountedPrice * quantity;
-                        total += totalPrice;
-                        
-                        //Creates a row for each item
-                        const row = document.createElement("tr");
-                        row.innerHTML = `
-                        <td>${foundProduct.description}</td>
-                        <td>${quantity}</td>
-                        <td>${foundProduct.price.toFixed(3)}</td>
-                        <td>${discountedPrice.toFixed(3)}</td>
-                        <td>${totalPrice.toFixed(3)}</td>`;
-                        
-                        //Appends the row to the table
-                        table.appendChild(row);
                     }
-                }
 
-                if (countEmpty === 6) {
-                    alert(`No items have been selected!`);
-                    return;
+                    //Check if foundProduct is null or not
+                    if (foundProduct == null) {
+                        //Raise alert indicates that this code is not found
+                        alert(`Product with code ${code} not found.`);
+                        return; //Return from the function
+                    }
+
+                    //Calculates total price
+                    const totalPrice = foundProduct.price * quantity;
+                    total += totalPrice;
+                    
+                    //Creates a row for each item
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                    <td>${foundProduct.brand} ${foundProduct.name} ${foundProduct.model}</td>
+                    <td>${quantity}</td>
+                    <td>${foundProduct.price.toFixed(3)}</td>
+                    <td>${totalPrice.toFixed(3)}</td>`;
+
+                    //Appends the row to the table
+                    table.appendChild(row);
                 }
                 
                 //Point to the container
@@ -242,301 +262,42 @@
         <div class="container">
             <!-- Heading for the calculator -->
             <h2>Bill Calculator</h2>
-            <br/>
+            <!-- Container for details buttons -->
+            <div class="button-group">
+                <!-- Buttons for products details -->
+                <button class="btn" onclick="viewDetails(0)">CANON Camera</button>
+                <button class="btn" onclick="viewDetails(1)">NIKON Camera</button>
+                <button class="btn" onclick="viewDetails(2)">Instant Camera</button>
+                <button class="btn" onclick="viewDetails(3)">Photo Printer</button>
+                <button class="btn" onclick="viewDetails(4)">Camera Lens</button>
+                <button class="btn" onclick="viewDetails(5)">Memory Card</button>
+            </div>
+            <!-- Container for details -->
+            <div class="details" id="details">Select a product to view details.</div>
+            <!-- Horizontal line -->
+            <hr/>
             <!-- Form -->
-            <form action="processOrder.php" method="post">
+            <form>
                 <!-- Table for items inputs code $ quantity fields -->
                 <table id="formTable">
-                    <!-- Row for customer name -->
-                    <tr>
-                        <th><label for="customerName">Customer Name:</label></th>
-                        <td><input type="text" id="customerName" placeholder="Enter your name" name="name" maxlength="50" required/></td>
-                    </tr>
-                    <!-- Row for customer number -->
-                    <tr>
-                        <th><label for="customerNumber">Phone Number:</label></th>
-                        <td><input type="tel" id="customerNumber" placeholder="xxxxxxxx" name="phone" pattern="[0-9]{8}" required/></td>
-                    </tr>
-                    <!-- Row for customer status -->
-                    <tr>
-                        <th><label for="status">Status:</label></th>
-                        <td>
-                            <select id="status" name="status" class="form-select" required>
-                                <option value="">-</option>
-                                <option value="s">Student</option>
-                                <option value="e">Employee</option>
-                                <option value="u">Unemployed</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for customer location -->
-                    <tr>
-                        <th><label for="location">Location Address:</label></th>
-                        <td>
-                            <select id="location" name="location" class="form-select" required>
-                                <option value="">-</option>
-                                <option value="Muscat">Muscat</option>
-                                <option value="ADakhiliyah">ADakhiliyah</option>
-                                <option value="AlBatinah">AlBatinah</option>
-                                <option value="ADhahirah">ADhahirah</option>
-                                <option value="AlBuraymi">AlBuraymi</option>
-                                <option value="AlSharqiyah">AlSharqiyah</option>
-                                <option value="Musandam">Musandam</option>
-                                <option value="AlWusta">AlWusta</option>
-                                <option value="Dhofar">Dhofar</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the first item ID -->
-                    <tr id="item1" >
-                        <th><label for="item1ID">Item 1:</label></th>
-                        <td>
-                            <select id="item1ID" name="item1ID" class="form-select" required>
-                                <option value="">-</option>
-                                <option value="1">Canon EOS 250D SLR Camera Body Black</option>
-                                <option value="2">Nikon Z30 Digital Camera Black</option>
-                                <option value="3">Canon Zoemini S2 ZV223 Instant Camera Colour Photo Printer</option>
-                                <option value="4">Canon CP1500BK Photo Printer</option>
-                                <option value="5">Canon EF 50MM F/1.8 STM Camera Lens</option>
-                                <option value="6">Lexar 128GB SDXC Card 1667X Professional</option>
-                                <option value="7">Hama 4163 Stativ Star Tripod</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the first item quantity -->
-                    <tr id="item1Q">
+                    <!-- Row for the first item -->
+                    <tr id="item1">
+                        <!-- First item code -->
+                        <th><label for="item1Code">Item 1 Code:</label></th>
+                        <td><input type="text" id="item1Code" placeholder="Enter item code" required></td>
+                        <!-- First item quantity -->
                         <th><label for="item1Qty">Item 1 Quantity:</label></th>
-                        <td>
-                            <select id="item1Qty" name="item1Qty" class="form-select">
-                                <option value="0">-</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the second item ID -->
-                    <tr id="item2" >
-                        <th><label for="item2ID">Item 2:</label></th>
-                        <td>
-                            <select id="item2ID" name="item2ID" class="form-select">
-                                <option value="">-</option>
-                                <option value="1">Canon EOS 250D SLR Camera Body Black</option>
-                                <option value="2">Nikon Z30 Digital Camera Black</option>
-                                <option value="3">Canon Zoemini S2 ZV223 Instant Camera Colour Photo Printer</option>
-                                <option value="4">Canon CP1500BK Photo Printer</option>
-                                <option value="5">Canon EF 50MM F/1.8 STM Camera Lens</option>
-                                <option value="6">Lexar 128GB SDXC Card 1667X Professional</option>
-                                <option value="7">Hama 4163 Stativ Star Tripod</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the second item quantity -->
-                    <tr id="item2Q">
-                        <th><label for="item2Qty">Item 2 Quantity:</label></th>
-                        <td>
-                            <select id="item2Qty" name="item2Qty" class="form-select">
-                                <option value="0">-</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the third item ID -->
-                    <tr id="item3" >
-                        <th><label for="item3ID">Item 3:</label></th>
-                        <td>
-                            <select id="item3ID" name="item3ID" class="form-select">
-                                <option value="">-</option>
-                                <option value="1">Canon EOS 250D SLR Camera Body Black</option>
-                                <option value="2">Nikon Z30 Digital Camera Black</option>
-                                <option value="3">Canon Zoemini S2 ZV223 Instant Camera Colour Photo Printer</option>
-                                <option value="4">Canon CP1500BK Photo Printer</option>
-                                <option value="5">Canon EF 50MM F/1.8 STM Camera Lens</option>
-                                <option value="6">Lexar 128GB SDXC Card 1667X Professional</option>
-                                <option value="7">Hama 4163 Stativ Star Tripod</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the third item quantity -->
-                    <tr id="item3Q">
-                        <th><label for="item3Qty">Item 3 Quantity:</label></th>
-                        <td>
-                            <select id="item3Qty" name="item3Qty" class="form-select">
-                                <option value="0">-</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the forth item ID -->
-                    <tr id="item4" >
-                        <th><label for="item4ID">Item 4:</label></th>
-                        <td>
-                            <select id="item4ID" name="item4ID" class="form-select">
-                                <option value="">-</option>
-                                <option value="1">Canon EOS 250D SLR Camera Body Black</option>
-                                <option value="2">Nikon Z30 Digital Camera Black</option>
-                                <option value="3">Canon Zoemini S2 ZV223 Instant Camera Colour Photo Printer</option>
-                                <option value="4">Canon CP1500BK Photo Printer</option>
-                                <option value="5">Canon EF 50MM F/1.8 STM Camera Lens</option>
-                                <option value="6">Lexar 128GB SDXC Card 1667X Professional</option>
-                                <option value="7">Hama 4163 Stativ Star Tripod</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the forth item quantity -->
-                    <tr id="item4Q">
-                        <th><label for="item4Qty">Item 4 Quantity:</label></th>
-                        <td>
-                            <select id="item4Qty" name="item4Qty" class="form-select">
-                                <option value="0">-</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the fifth item ID -->
-                    <tr id="item5" >
-                        <th><label for="item5ID">Item 5:</label></th>
-                        <td>
-                            <select id="item5ID" name="item5ID" class="form-select">
-                                <option value="">-</option>
-                                <option value="1">Canon EOS 250D SLR Camera Body Black</option>
-                                <option value="2">Nikon Z30 Digital Camera Black</option>
-                                <option value="3">Canon Zoemini S2 ZV223 Instant Camera Colour Photo Printer</option>
-                                <option value="4">Canon CP1500BK Photo Printer</option>
-                                <option value="5">Canon EF 50MM F/1.8 STM Camera Lens</option>
-                                <option value="6">Lexar 128GB SDXC Card 1667X Professional</option>
-                                <option value="7">Hama 4163 Stativ Star Tripod</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the fifth item quantity -->
-                    <tr id="item5Q">
-                        <th><label for="item5Qty">Item 5 Quantity:</label></th>
-                        <td>
-                            <select id="item5Qty" name="item5Qty" class="form-select">
-                                <option value="0">-</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the 6th item ID -->
-                    <tr id="item6" >
-                        <th><label for="item6ID">Item 6:</label></th>
-                        <td>
-                            <select id="item6ID" name="item6ID" class="form-select">
-                                <option value="">-</option>
-                                <option value="1">Canon EOS 250D SLR Camera Body Black</option>
-                                <option value="2">Nikon Z30 Digital Camera Black</option>
-                                <option value="3">Canon Zoemini S2 ZV223 Instant Camera Colour Photo Printer</option>
-                                <option value="4">Canon CP1500BK Photo Printer</option>
-                                <option value="5">Canon EF 50MM F/1.8 STM Camera Lens</option>
-                                <option value="6">Lexar 128GB SDXC Card 1667X Professional</option>
-                                <option value="7">Hama 4163 Stativ Star Tripod</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the 6th item quantity -->
-                    <tr id="item6Q">
-                        <th><label for="item6Qty">Item 6 Quantity:</label></th>
-                        <td>
-                            <select id="item6Qty" name="item6Qty" class="form-select">
-                                <option value="0">-</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the last item ID -->
-                    <tr id="item7" >
-                        <th><label for="item7ID">Item 7:</label></th>
-                        <td>
-                            <select id="item7ID" name="item7ID" class="form-select">
-                                <option value="">-</option>
-                                <option value="1">Canon EOS 250D SLR Camera Body Black</option>
-                                <option value="2">Nikon Z30 Digital Camera Black</option>
-                                <option value="3">Canon Zoemini S2 ZV223 Instant Camera Colour Photo Printer</option>
-                                <option value="4">Canon CP1500BK Photo Printer</option>
-                                <option value="5">Canon EF 50MM F/1.8 STM Camera Lens</option>
-                                <option value="6">Lexar 128GB SDXC Card 1667X Professional</option>
-                                <option value="7">Hama 4163 Stativ Star Tripod</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Row for the last item quantity -->
-                    <tr id="item7Q">
-                        <th><label for="item7Qty">Item 7 Quantity:</label></th>
-                        <td>
-                            <select id="item7Qty" name="item7Qty" class="form-select">
-                                <option value="0">-</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
+                        <td><input type="number" id="item1Qty" min="1" required></td>
                     </tr>
                 </table>
                 <!-- Container for buttons of the form -->
                 <div class="button-group">
+                    <!-- Button for adding new item row -->
+                    <button type="button" class="btn" onclick="addNewItemRow()">Add Item</button>
+                    <!-- Button for removing last item row -->
+                    <button type="button" class="btn" onclick="removeLastItemRow()">Remove Item</button>
                     <!-- Button for generating the bill -->
-                    <input type="submit" class="btn" value="Generate Bill"/>
+                    <button type="button" class="btn" onclick="calculateBill()">Generate Bill</button>
                     <!-- Reset button to clear the form -->
                     <input type="reset" class="btn"/>
                 </div>
