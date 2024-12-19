@@ -222,7 +222,7 @@ if (isset($_GET['edit'])) {
             <nav class="navbar navbar-expand-sm">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="portfolio.php">Portfolio</a></li>
+                    <li class="nav-item"><a class="nav-link active">Portfolio</a></li>
                     <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
                     <li class="nav-item"><a class="nav-link" href="store.php">Store</a></li>
                     <li class="nav-item"><a class="nav-link" href="calculation.html">Calculation</a></li>
