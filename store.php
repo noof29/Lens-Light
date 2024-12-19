@@ -116,13 +116,13 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <nav class="navbar navbar-expand-sm">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="portfolio.php">Portfolio</a></li>
                     <li class="nav-item"><a class="nav-link" href="booking.html">Booking</a></li>
                     <li class="nav-item"><a class="nav-link active">Store</a></li>
                     <li class="nav-item"><a class="nav-link" href="calculation.html">Calculation</a></li>
                     <li class="nav-item"><a class="nav-link" href="contactus.html">Contact us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Questionnaire</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Fun</a></li>
+                    <li class="nav-item"><a class="nav-link" href="questionnaire.html">Questionnaire</a></li>
+                    <li class="nav-item"><a class="nav-link" href="fun.html">Fun</a></li>
                     <li class="nav-item"><a class="nav-link" href="about us.html">About us</a></li>
                 </ul>
             </nav>
