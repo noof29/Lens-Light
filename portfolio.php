@@ -2,16 +2,16 @@
 // Database Connection Setup
 // The following variables store the credentials required to connect to the database
 $host = 'localhost'; // Hostname of the database server
-$db = 'portfolio_db'; // Name of the database
-$user = 'root'; // Database username
-$pass = ''; // Database password (leave blank for default setups)
+$dbname = 'portfolio_db'; // Name of the database
+$username = 'root'; // Database username
+$password = ''; // Database password (leave blank for default setups)
 
 // Data Source Name (DSN) is used to define the database type and its location
-$dsn = "mysql:host=$host;dbname=$db";
+$dsn = "mysql:host=$host;dbname=$dbname";
 
 try {
     // PDO instance creation with error mode set to exceptions for better error handling
-    $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $pdo = new PDO($dsn, $username, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 } catch (PDOException $e) {
     // If connection fails, the script terminates, and the error message is displayed
     die("Connection failed: " . $e->getMessage());
