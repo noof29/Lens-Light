@@ -217,19 +217,23 @@
             return false;  // Stop form submission if experience is not selected
         }
 
-        // Service validation: Ensure that at least one service checkbox is selected
-        var services = document.getElementsByName("services");  // Get all service checkboxes
-        var serviceSelected = false;  // Initialize variable to check if any service is selected
-        for (var i = 0; i < services.length; i++) {  // Loop through all checkboxes
-            if (services[i].checked) {  // If the checkbox is selected
-                serviceSelected = true;  // Set serviceSelected to true
-                break;  // Exit the loop once a checkbox is selected
-            }
-        }
-        if (!serviceSelected) {  // If no checkbox is selected
-            alert("Please select at least one service.");
-            return false;  // Stop form submission if no service is selected
-        }
+        // Service validation: Ensure that exactly one service checkbox is selected
+var services = document.getElementsByName("services[]");  // Get all service checkboxes
+var selectedCount = 0;  // Initialize a variable to count selected checkboxes
+
+// Loop through all checkboxes to count the selected ones
+for (var i = 0; i < services.length; i++) {
+    if (services[i].checked) {
+        selectedCount++;  // Increment the selectedCount
+    }
+}
+
+// Check if exactly one checkbox is selected
+if (selectedCount !== 1) {
+    alert("Please select exactly one service.");
+    return false;  // Stop form submission if not exactly one checkbox is selected
+}
+
 
         // Comments validation: Ensure that comments field contains at least 5 words
         var wordCount = comments.trim().split(/\s+/).length;  // Count the number of words in the comments field
